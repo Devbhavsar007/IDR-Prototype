@@ -1,0 +1,11 @@
+name: "Urban Canyon Multipath & Outage"
+description: "Dense high-rise corridor with severe pseudo-range delay, satellite masking, and sudden multipath spikes"
+duration_seconds: 90.0
+gnss_multipath:
+  enabled: true
+  bias_error_m: 25.0
+  snr_attenuation_db: 12.0
+speed_profile:
+  cruise_mps: 8.33 # 30 km/h with stops
+environment:
+  corridor: "connaught_place_ring"

@@ -1,0 +1,12 @@
+name: "1km Tunnel GNSS Outage"
+description: "Simulates complete GNSS signal denial in a 1000m road tunnel with curved trajectory"
+duration_seconds: 60.0
+gnss_outage:
+  start_second: 10.0
+  end_second: 50.0
+speed_profile:
+  cruise_mps: 16.67 # 60 km/h
+  noise_std: 0.1
+environment:
+  corridor: "delhi_nh48_tunnel"
+  multipath_prob: 0.0

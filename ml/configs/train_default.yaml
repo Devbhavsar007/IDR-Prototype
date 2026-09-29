@@ -1,0 +1,25 @@
+model:
+  name: "LLIO-Net"
+  input_dim: 6
+  hidden_dim: 128
+  num_layers: 2
+  output_dim: 3
+  dropout: 0.1
+
+dataset:
+  name: "IO-VNBD"
+  window_size_sec: 1.0
+  sampling_rate_hz: 100
+  batch_size: 64
+  num_workers: 4
+
+training:
+  epochs: 50
+  learning_rate: 1.0e-3
+  weight_decay: 1.0e-4
+  scheduler: "cosine"
+  gradient_clip: 1.0
+
+loss:
+  velocity_mse_weight: 1.0
+  covariance_weight: 0.1

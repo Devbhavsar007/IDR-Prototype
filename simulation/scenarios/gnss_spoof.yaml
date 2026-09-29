@@ -1,0 +1,12 @@
+name: "GNSS Spoofing & Meaconing Injection"
+description: "Injects gradual kinematic drift, pseudo-range acceleration spoofing, and clock discontinuity"
+duration_seconds: 75.0
+spoofing_attack:
+  start_second: 20.0
+  drift_velocity_mps: 4.5
+  clock_jump_ms: 120.0
+  snr_lift_db: 6.0
+defense_expected:
+  innovation_gating: true
+  chi2_alarm_triggered: true
+  fallback_mode: "DEAD_RECKONING"

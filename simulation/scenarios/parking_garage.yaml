@@ -1,0 +1,11 @@
+name: "Multi-Floor Underground Parking Garage"
+description: "Zero GNSS, helical ramp maneuvers, tight turns, multi-level z-axis displacement"
+duration_seconds: 120.0
+gnss_outage:
+  start_second: 5.0
+  end_second: 120.0
+speed_profile:
+  cruise_mps: 4.0
+  ramp_grade_deg: 8.5
+environment:
+  corridor: "cyber_city_multilevel_parking"

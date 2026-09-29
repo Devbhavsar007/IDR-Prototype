@@ -1,0 +1,10 @@
+format: nmea
+rate_hz: 10.0
+serial:
+  enabled: false
+  port: COM3
+  baud_rate: 115200
+udp:
+  enabled: true
+  host: "127.0.0.1"
+  port: 5555
