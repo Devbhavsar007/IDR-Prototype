@@ -322,10 +322,10 @@
     }
 
     /* =========================================================
-       VERTICAL SIDEBAR NAVIGATION (.app-sidebar)
+       VERTICAL SIDEBAR NAVIGATION (.app-sidebar) - SLIM MODE
        ========================================================= */
     .app-sidebar {
-      width: 255px;
+      width: 68px;
       height: 100vh;
       position: fixed;
       top: 0;
@@ -334,46 +334,64 @@
       backdrop-filter: var(--glass-blur-heavy);
       -webkit-backdrop-filter: var(--glass-blur-heavy);
       border-right: 1px solid var(--border-light);
-      box-shadow: 4px 0 28px rgba(0, 0, 0, 0.25), inset -1px 0 0 rgba(255, 255, 255, 0.06);
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.18);
       display: flex;
       flex-direction: column;
+      align-items: center;
       z-index: 1000;
-      transition: transform var(--transition-base), width var(--transition-base);
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+    .app-sidebar:hover {
+      width: 255px;
     }
     .sidebar-header {
-      padding: 1.25rem 1.25rem 1rem;
+      padding: 1rem 0.6rem 0.75rem;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
+      gap: 0.65rem;
+      width: 100%;
+      align-items: center;
     }
     .sidebar-brand {
       display: flex;
       align-items: center;
       gap: 0.75rem;
       text-decoration: none;
+      width: 100%;
+      justify-content: center;
+    }
+    .app-sidebar:hover .sidebar-brand {
+      justify-content: flex-start;
+      padding-left: 0.65rem;
     }
     .brand-title-wrap {
-      display: flex;
+      display: none;
       flex-direction: column;
+    }
+    .app-sidebar:hover .brand-title-wrap {
+      display: flex;
     }
     .sidebar-brand-name {
       font-family: var(--font-ui);
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 800;
       color: var(--text-primary);
       letter-spacing: -0.02em;
       line-height: 1.1;
+      white-space: nowrap;
     }
     .sidebar-brand-tag {
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       font-weight: 700;
       color: var(--accent);
       letter-spacing: 0.06em;
       text-transform: uppercase;
+      white-space: nowrap;
     }
     .sidebar-telemetry-badge {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       padding: 0.4rem 0.65rem;
@@ -382,6 +400,10 @@
       border: 1px solid var(--border-subtle);
       font-size: 0.7rem;
       font-family: var(--font-mono);
+      width: 100%;
+    }
+    .app-sidebar:hover .sidebar-telemetry-badge {
+      display: flex;
     }
     .live-pulse-dot {
       width: 7px;
@@ -398,48 +420,69 @@
 
     .sidebar-nav {
       flex: 1;
-      padding: 1rem 0.75rem;
+      padding: 0.75rem 0.4rem;
       overflow-y: auto;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 0.6rem;
+      width: 100%;
     }
     .sidebar-group-label {
-      font-size: 0.76rem;
+      font-size: 0.62rem;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 0 0.5rem 0.35rem;
+      padding: 0.25rem 0.5rem;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .app-sidebar:hover .sidebar-group-label {
+      opacity: 1;
     }
     .sidebar-group {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .sidebar-item {
       width: 100%;
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 0.7rem 1rem;
+      gap: 10px;
+      padding: 0.6rem;
       border-radius: var(--radius-md);
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-secondary);
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       text-align: left;
       transition: all var(--transition-fast);
       position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      justify-content: center;
+    }
+    .app-sidebar:hover .sidebar-item {
+      justify-content: flex-start;
+      padding: 0.6rem 0.85rem;
+    }
+    .sidebar-item span:not(.sidebar-badge) {
+      display: none;
+    }
+    .app-sidebar:hover .sidebar-item span:not(.sidebar-badge) {
+      display: inline;
     }
     .sidebar-item:hover {
       background: var(--bg-secondary);
       color: var(--text-primary);
     }
     .sidebar-item.active {
-      background: rgba(14, 165, 233, 0.1);
+      background: rgba(14, 165, 233, 0.12);
       border-color: rgba(14, 165, 233, 0.3);
       color: var(--accent);
       font-weight: 700;
@@ -449,12 +492,16 @@
     }
     .sidebar-badge {
       margin-left: auto;
-      font-size: 0.72rem;
+      font-size: 0.65rem;
       font-family: var(--font-mono);
-      padding: 2px 8px;
+      padding: 2px 6px;
       border-radius: var(--radius-full);
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-muted);
+      display: none;
+    }
+    .app-sidebar:hover .sidebar-badge {
+      display: inline-block;
     }
     .sidebar-item.active .sidebar-badge {
       background: rgba(14, 165, 233, 0.2);
@@ -462,12 +509,14 @@
     }
 
     .sidebar-footer {
-      padding: 1rem 0.85rem;
+      padding: 0.65rem;
       border-top: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0.5rem;
       background: var(--bg-secondary);
+      width: 100%;
+      overflow: hidden;
     }
 
     /* Backdrop on Mobile */
@@ -489,7 +538,7 @@
        MAIN APPLICATION LAYOUT (.app-main)
        ========================================================= */
     .app-main {
-      margin-left: 255px;
+      margin-left: 68px;
       flex: 1;
       min-height: 100vh;
       display: flex;
@@ -1842,10 +1891,12 @@
     }
     @media (max-width: 900px) {
       .app-sidebar {
+        width: 0;
         transform: translateX(-100%);
         box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
       }
       .app-sidebar.open {
+        width: 255px;
         transform: translateX(0);
       }
       .sidebar-backdrop.active {
@@ -1871,6 +1922,1162 @@
         justify-content: flex-start;
       }
     }
+
+    /* =========================================================
+       PARIS MULTIMODAL MOBILE APP SUITE (MATCHING USER REFERENCE)
+       ========================================================= */
+    .mobile-app-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      padding-bottom: 2.5rem;
+    }
+
+    /* Top Control Toolbar */
+    .mobile-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--bg-card);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 0.9rem 1.4rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .mobile-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .mobile-title-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1E66FF, #00B4D8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(30, 102, 255, 0.35);
+      flex-shrink: 0;
+    }
+    .mobile-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+    .mobile-subheading {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+    .mobile-toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .mobile-view-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 4px;
+      border-radius: 9999px;
+      border: 1px solid var(--border-subtle);
+    }
+    .view-pill-btn {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+    .view-pill-btn:hover {
+      color: var(--text-primary);
+    }
+    .view-pill-btn.active {
+      background: #1E66FF;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(30, 102, 255, 0.45);
+    }
+    .btn-deadreckon-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #10b981;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-deadreckon-toggle.dr-active {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.45);
+      color: #ef4444;
+      animation: pulseAlert 1.5s infinite;
+    }
+
+    /* Multi-Phone Showcase Container (3 Phones side-by-side) */
+    
+    /* Studio Showcase Presentation Mode */
+    .iphone-showcase-container.studio-mode {
+      background: radial-gradient(ellipse at 50% 30%, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 28px;
+      padding: 3rem 1.5rem;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    .iphone-showcase-container.studio-mode .iphone-screen-label {
+      color: #475569;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    }
+
+    .iphone-showcase-container {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(320px, 400px));
+      justify-content: center;
+      gap: 2.5rem;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1rem 0;
+    }
+    @media (max-width: 1360px) {
+      .iphone-showcase-container {
+        grid-template-columns: repeat(auto-fit, minmax(330px, 390px));
+        gap: 1.5rem;
+      }
+    }
+
+    /* Single Device Interactive Simulator View */
+    .single-device-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      width: 100%;
+      padding: 1rem 0;
+    }
+    .simulator-screen-switcher {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      padding: 5px 8px;
+      box-shadow: var(--shadow-sm);
+    }
+    .sim-tab-btn {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .sim-tab-btn:hover {
+      color: var(--text-primary);
+    }
+    .sim-tab-btn.active {
+      background: #1E66FF;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(30, 102, 255, 0.4);
+    }
+
+    /* iPhone Frame Hardware Model */
+    .iphone-device-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .iphone-screen-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .iphone-chassis {
+      position: relative;
+      width: 375px;
+      height: 790px;
+      background: #0d0e12;
+      border-radius: 54px;
+      box-shadow: 
+        0 0 0 4px #262933,
+        0 0 0 6px #121318,
+        0 0 0 9px #353a47,
+        0 25px 65px -12px rgba(0, 0, 0, 0.75),
+        inset 0 0 4px rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island */
+    .iphone-dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 108px;
+      height: 27px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.9);
+      pointer-events: none;
+    }
+    .di-camera {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #080c14;
+      border: 1px solid #1a2233;
+      position: relative;
+    }
+    .di-camera::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: #0ea5e9;
+      opacity: 0.6;
+    }
+    .di-sensor {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #11141d;
+    }
+
+    /* iOS Status Bar */
+    .iphone-status-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 26px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      z-index: 999;
+      pointer-events: none;
+    }
+    .status-left {
+      letter-spacing: -0.02em;
+    }
+    .status-right {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* iPhone Home Indicator Bar */
+    .iphone-home-indicator {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 134px;
+      height: 5px;
+      background: #0f172a;
+      border-radius: 100px;
+      z-index: 1001;
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    
+    /* Live Dynamic Pulse and Navigation Styles */
+    .landmark-gps-radar-wave {
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      border: 2px solid #00B4D8;
+      background: rgba(0, 180, 216, 0.25);
+      animation: gpsRadarWave 2s infinite ease-out;
+      pointer-events: none;
+    }
+    @keyframes gpsRadarWave {
+      0% { transform: scale(0.6); opacity: 0.9; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+
+    /* Dynamic Route Polyline Light-Stream Pulse */
+    @keyframes routeDashFlow {
+      to { stroke-dashoffset: -32; }
+    }
+    .route-polyline-animated {
+      stroke-dasharray: 8 6;
+      animation: routeDashFlow 1.2s linear infinite;
+    }
+
+    /* Landmark pin selection highlight */
+    .paris-landmark-marker.selected .landmark-photo-box {
+      border: 2.5px solid #1E66FF !important;
+      box-shadow: 0 0 18px rgba(30, 102, 255, 0.6), 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+      transform: scale(1.1);
+    }
+    .paris-landmark-marker.dimmed {
+      opacity: 0.35 !important;
+      filter: grayscale(40%);
+      transition: all 0.3s ease;
+    }
+
+    /* Live HUD pill inside Phone 3 */
+    .phone3-live-nav-hud {
+      position: absolute;
+      top: 54px;
+      left: 14px;
+      right: 68px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      border-radius: 16px;
+      padding: 9px 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 850;
+      color: #ffffff;
+    }
+    .phone3-live-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .phone3-turn-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1E66FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .phone3-turn-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .phone3-turn-dist {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+    .phone3-turn-name {
+      font-size: 0.68rem;
+      color: #94A3B8;
+    }
+    .phone3-speed-tag {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38BDF8;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+    .phone3-live-nav-hud.dr-outage {
+      border-color: #EF4444;
+      background: rgba(69, 10, 10, 0.94);
+    }
+    .phone3-live-nav-hud.dr-outage .phone3-speed-tag {
+      border-color: #EF4444;
+      color: #EF4444;
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    /* Screen Stage Viewport */
+    .iphone-viewport {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #eef3f8;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Light Paris Cartographic Stage */
+    .paris-map-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #eff3f7;
+      overflow: hidden;
+    }
+    .paris-map-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    /* Real MapLibre Map inside Phone Frames */
+    .phone-maplibre-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .phone-maplibre-container .maplibregl-map {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .phone-maplibre-container .maplibregl-ctrl-bottom-left,
+    .phone-maplibre-container .maplibregl-ctrl-bottom-right,
+    .phone-maplibre-container .maplibregl-ctrl-top-left,
+    .phone-maplibre-container .maplibregl-ctrl-top-right {
+      display: none !important;
+    }
+
+    /* Floating Right Vertical Tool Stack */
+    .ios-floating-tools {
+      position: absolute;
+      top: 60px;
+      right: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 800;
+    }
+    .ios-tool-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1e293b;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      padding: 0;
+    }
+    .ios-tool-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+    }
+    .ios-tool-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .ios-tool-avatar:hover {
+      transform: scale(1.08);
+    }
+    .ios-tool-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Photographic Landmark Pins on Map */
+    .paris-landmark-marker {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 500;
+    }
+    .paris-landmark-marker:hover {
+      transform: translate(-50%, -55%) scale(1.08);
+      z-index: 550;
+    }
+    .landmark-photo-box {
+      position: relative;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 3px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+    }
+    .landmark-photo-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 9px;
+      object-fit: cover;
+      display: block;
+      background: #cbd5e1;
+    }
+    .landmark-label-pill {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(6px);
+      padding: 2px 7px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
+      max-width: 115px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .landmark-count-badge {
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      background: #1E66FF;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(30, 102, 255, 0.45);
+      border: 1.5px solid #ffffff;
+    }
+    .landmark-gps-dot {
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #00B4D8;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 10px rgba(0, 180, 216, 0.85);
+      animation: pulseGlow 1.8s infinite alternate;
+    }
+
+    /* Screen 3: Destination Marker (Red Highlight Frame) */
+    .destination-highlight-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #ffffff;
+      padding: 3px;
+      border: 3px solid #EF4444;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.5), 0 8px 20px rgba(0, 0, 0, 0.18);
+      animation: destPulse 2s infinite ease-in-out;
+    }
+    @keyframes destPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(239, 68, 68, 0.65), 0 10px 24px rgba(0, 0, 0, 0.22); }
+    }
+
+    /* Curved Blue Wave Drawer Shelf (Signature UI element) */
+    .ios-curved-blue-shelf {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 700;
+      display: flex;
+      flex-direction: column;
+    }
+    .ios-blue-wave-header {
+      width: 100%;
+      height: 24px;
+      background: #1E66FF;
+      border-radius: 28px 28px 0 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ios-shelf-handle {
+      width: 36px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 10px;
+    }
+    .ios-white-drawer-card {
+      background: #ffffff;
+      border-radius: 28px 28px 0 0;
+      padding: 18px 18px 28px;
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin-top: -6px;
+    }
+
+    /* Screen 1 Drawer: Explore */
+    .drawer-explore-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+      color: #0A1128;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .drawer-category-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .drawer-category-pills::-webkit-scrollbar {
+      display: none;
+    }
+    .cat-pill-btn {
+      padding: 8px 16px;
+      border-radius: 9999px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cat-pill-btn:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+    .cat-pill-btn.active {
+      background: #1E66FF;
+      color: #ffffff;
+      border-color: #1E66FF;
+      box-shadow: 0 4px 12px rgba(30, 102, 255, 0.3);
+    }
+
+    /* Screen 2 Drawer: Landmark Details */
+    .landmark-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .landmark-title-name {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #0A1128;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .landmark-type-tag {
+      font-size: 0.8rem;
+      color: #64748B;
+      margin-top: 3px;
+    }
+    .landmark-rating-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .landmark-stars-wrap {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: #F59E0B;
+      font-size: 12px;
+    }
+    .landmark-rate-score {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #0A1128;
+      margin-left: 4px;
+    }
+    .landmark-rate-count {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      margin-top: 1px;
+    }
+
+    .landmark-status-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      margin-bottom: 12px;
+    }
+    .badge-open-pill {
+      background: #DCFCE7;
+      color: #15803D;
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .status-closes-text {
+      color: #64748B;
+      font-size: 0.78rem;
+    }
+
+    .landmark-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .gallery-thumb-item {
+      height: 72px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .gallery-thumb-item:hover {
+      transform: scale(1.04);
+    }
+    .gallery-thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .landmark-actions-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      margin-bottom: 12px;
+    }
+    .landmark-action-btn {
+      padding: 7px 13px;
+      border-radius: 9999px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .landmark-action-btn.primary {
+      background: #1E66FF;
+      color: #ffffff;
+      border-color: #1E66FF;
+      box-shadow: 0 4px 12px rgba(30, 102, 255, 0.35);
+    }
+    .landmark-action-btn.primary:hover {
+      background: #1455e0;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .landmark-action-btn:hover {
+      background: #e2e8f0;
+    }
+    .landmark-action-btn.primary:hover {
+      background: #DBEAFE;
+    }
+
+    .landmark-detailed-info {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+    }
+    .detailed-info-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0A1128;
+      margin-bottom: 4px;
+    }
+    .detailed-info-body {
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: #64748B;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    
+    /* Integrated Turn Guidance Bar inside Route Card */
+    .ios-top-route-card {
+      position: absolute;
+      top: 52px;
+      left: 14px;
+      right: 68px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 10px 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      z-index: 850;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .phone3-turn-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 7px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .p3-turn-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .p3-turn-badge {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #1E66FF;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .p3-turn-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .p3-turn-lead {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #0A1128;
+      line-height: 1.2;
+    }
+    .p3-turn-sub {
+      font-size: 0.65rem;
+      color: #64748B;
+    }
+    .p3-live-speed {
+      background: #EFF6FF;
+      border: 1px solid #BFDBFE;
+      color: #1E66FF;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 5px;
+    }
+    .ios-top-route-card.dr-outage .p3-live-speed {
+      background: #FEE2E2;
+      border-color: #FECACA;
+      color: #DC2626;
+    }
+    .route-card-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Screen 3: Top Floating Route Card */
+    .ios-top-route-card {
+      position: absolute;
+      top: 54px;
+      left: 14px;
+      right: 68px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 12px 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      z-index: 850;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .route-points-col {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+    .route-points-col::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      bottom: 14px;
+      left: 5px;
+      width: 2px;
+      border-left: 2px dotted #94A3B8;
+    }
+    .route-point-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot-origin {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #1E66FF;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 6px rgba(30, 102, 255, 0.6);
+      z-index: 2;
+    }
+    .dot-dest {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #EF4444;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 6px rgba(239, 68, 68, 0.6);
+      z-index: 2;
+    }
+    .route-point-text {
+      display: flex;
+      flex-direction: column;
+    }
+    .point-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #0A1128;
+      line-height: 1.2;
+    }
+    .point-desc {
+      font-size: 0.7rem;
+      color: #94A3B8;
+    }
+    .route-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .route-card-icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #f1f5f9;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .route-card-icon-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    /* Screen 3: Public Transport Bottom Sheet */
+    .transit-sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .transit-sheet-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0A1128;
+    }
+    .transit-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .transit-action-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .transit-action-circle:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .transit-mode-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .mode-tab-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 9999px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .mode-tab-pill.active {
+      background: #1E66FF;
+      color: #ffffff;
+      border-color: #1E66FF;
+      box-shadow: 0 4px 12px rgba(30, 102, 255, 0.35);
+      font-weight: 700;
+    }
+
+    .transit-route-summary-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .tag-fastest {
+      align-self: flex-start;
+      background: #FEF08A;
+      color: #854D0E;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .transit-timing-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .transit-time-big {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0A1128;
+    }
+    .transit-dist-span {
+      font-size: 0.72rem;
+      color: #64748B;
+      font-weight: 500;
+      margin-left: 6px;
+    }
+    .transit-fare-price {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0A1128;
+    }
+    .transit-itinerary-steps {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: #475569;
+      font-weight: 600;
+      padding-top: 4px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .bus-capsule {
+      background: #10B981;
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .step-arrow-icon {
+      color: #94A3B8;
+      font-size: 10px;
+    }
+
+    /* Live Dead-Reckoning Mini HUD inside the iPhone */
+    .iphone-idr-hud {
+      position: absolute;
+      top: 52px;
+      left: 14px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 12px;
+      padding: 5px 9px;
+      z-index: 840;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #f8fafc;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+    .hud-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+    .hud-dot.dr-active {
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      animation: pulseGlow 1s infinite alternate;
+    }
   </style>
 </head>
 <body class="view-mode-standard">
@@ -1879,7 +3086,7 @@
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleMobileSidebar()"></div>
 
   <!-- DYNAMIC INITIAL LOADING SCREEN (#bootOverlay) -->
-  <div id="bootOverlay">
+  <div id="bootOverlay" class="hidden" style="display: none;">
     <div class="loader-pulse-wrap">
       <div class="loader-pulse-ring"></div>
       <div class="loader-pulse-ring"></div>
@@ -1962,9 +3169,20 @@
     <!-- Navigation Menu Items -->
     <nav class="sidebar-nav">
       <div>
-        <div class="sidebar-group-label">Mission Cockpit</div>
+        <div>
+        <div class="sidebar-group-label">Mobile Application</div>
         <div class="sidebar-group">
-          <button class="sidebar-item active" id="nav-item-cockpit" onclick="switchTab('cockpit')">
+          <button class="sidebar-item active" id="nav-item-mobileapp" onclick="switchTab('mobileapp')">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+            <span>Paris Mobile App</span>
+            <span class="sidebar-badge" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">iOS UI</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-group-label">Mission Cockpit</div>
+        <div class="sidebar-group">
+          <button class="sidebar-item" id="nav-item-cockpit" onclick="switchTab('cockpit')">
             <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4M12 16V9"/></svg>
             <span>Live 3D Fusion Cockpit</span>
             <span class="sidebar-badge">Primary</span>
@@ -2049,7 +3267,7 @@
         <button class="mobile-menu-btn" id="btnMobileMenu" onclick="toggleMobileSidebar()" title="Toggle Sidebar Navigation">
           <svg class="menu-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
         </button>
-        <div class="page-title" id="pageTitleText">Live 3D Fusion Cockpit</div>
+        <div class="page-title" id="pageTitleText">Paris Multimodal Navigation App</div>
       </div>
 
       <div class="top-bar-right">
@@ -2081,10 +3299,1067 @@
     <!-- Main Content Body -->
     <main class="page-container">
 
+      
+      <!-- ========================================================= -->
+      <!-- TAB 0: PARIS MULTIMODAL MOBILE APP UI (USER REFERENCE)     -->
+      <!-- ========================================================= -->
+      <div id="tab-mobileapp" class="tab-content active">
+        <div class="mobile-app-wrapper">
+
+          <!-- Controls & View Mode Ribbon -->
+          <div class="mobile-controls-bar">
+            <div class="mobile-title-wrap">
+              <div class="mobile-title-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+              </div>
+              <div>
+                <div class="mobile-heading">Paris Multimodal Navigation &amp; Dead Reckoning App</div>
+                <div class="mobile-subheading">Pixel-perfect recreation of iOS map navigation UI with live IDR sensor fusion</div>
+              </div>
+            </div>
+
+            <div class="mobile-toolbar-actions">
+              <div class="mobile-view-tabs">
+                <button class="view-pill-btn" id="btnStudioMode" onclick="toggleStudioShowcase()" title="Toggle Clean Studio Backdrop (Matching User Reference)">
+                <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <span>Studio Light</span>
+              </button>
+              <button class="view-pill-btn active" id="btnViewShowcase" onclick="switchMobileView('showcase')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="12" x="2" y="6" rx="1"/><rect width="7" height="12" x="15" y="6" rx="1"/></svg>
+                  <span>3-Device Showcase</span>
+                </button>
+                <button class="view-pill-btn" id="btnViewSimulator" onclick="switchMobileView('simulator')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="12" height="18" x="6" y="3" rx="2"/><path d="M12 17h.01"/></svg>
+                  <span>Interactive Device</span>
+                </button>
+                <button class="view-pill-btn" id="btnViewFullscreen" onclick="switchMobileView('fullscreen')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+                  <span>Responsive Mode</span>
+                </button>
+              </div>
+
+              <button class="btn-deadreckon-toggle" id="btnToggleDeadReckonSim" onclick="toggleDeadReckoningSim()" title="Simulate GPS outage in Paris tunnel">
+                <span class="hud-dot" id="btnToggleDrDot"></span>
+                <span id="btnToggleDrLabel">GPS Outage: OFF (Nominal)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ========================================================= -->
+          <!-- MODE 1: THREE-DEVICE SHOWCASE (EXACT USER REFERENCE)       -->
+          <!-- ========================================================= -->
+          <div class="iphone-showcase-container" id="iphoneShowcaseView">
+
+            <!-- ------------------------------------------------------- -->
+            <!-- PHONE 1: EXPLORE MAP VIEW WITH LANDMARK PINS            -->
+            <!-- ------------------------------------------------------- -->
+            <div class="iphone-device-wrap">
+              <div class="iphone-screen-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></svg>
+                <span>Screen 1: Explore Map</span>
+              </div>
+              <div class="iphone-chassis">
+                <div class="iphone-dynamic-island">
+                  <div class="di-camera"></div>
+                  <div class="di-sensor"></div>
+                </div>
+                <div class="iphone-status-bar">
+                  <span class="status-left">9:41</span>
+                  <div class="status-right">
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M2 19h20M2 15h16M2 11h12M2 7h8"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><rect width="18" height="11" x="2" y="7" rx="2.5"/><path d="M22 11v3"/><rect width="10" height="7" x="4" y="9" rx="1.5" fill="currentColor"/></svg>
+                  </div>
+                </div>
+
+                <div class="iphone-viewport">
+                  <!-- Paris Vector Map Canvas -->
+                  <div class="paris-map-stage">
+                    <svg class="paris-map-svg" viewBox="0 0 375 790" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="seineGradient_explore" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#38BDF8"/>
+                          <stop offset="60%" stop-color="#2BAFF0"/>
+                          <stop offset="100%" stop-color="#1A9EE0"/>
+                        </linearGradient>
+                      </defs>
+
+                      <!-- 1. Map Base Terrain -->
+                      <rect width="375" height="790" fill="#EEF3F8"/>
+
+                      <!-- 2. Parisian City Parcels / Urban Blocks -->
+                      <g fill="#F5F8FB" stroke="#E2E8F0" stroke-width="0.8">
+                        <rect x="15" y="70" width="85" height="52" rx="6"/>
+                        <rect x="110" y="65" width="100" height="55" rx="6"/>
+                        <rect x="220" y="68" width="140" height="62" rx="6"/>
+                        <rect x="20" y="132" width="75" height="42" rx="6"/>
+                        <rect x="105" y="128" width="85" height="46" rx="6"/>
+                        <rect x="200" y="138" width="160" height="42" rx="6"/>
+                        <rect x="30" y="375" width="70" height="72" rx="6"/>
+                        <rect x="110" y="385" width="85" height="62" rx="6"/>
+                        <rect x="205" y="405" width="80" height="68" rx="6"/>
+                        <rect x="295" y="425" width="68" height="62" rx="6"/>
+                        <rect x="25" y="460" width="80" height="88" rx="6"/>
+                        <rect x="115" y="458" width="80" height="92" rx="6"/>
+                        <rect x="205" y="482" width="85" height="82" rx="6"/>
+                        <rect x="300" y="498" width="65" height="78" rx="6"/>
+                      </g>
+
+                      <!-- 3. Green Public Gardens & Parks -->
+                      <g fill="#D8EDD9" stroke="#C2DFC5" stroke-width="0.8" opacity="0.95">
+                        <!-- Tuileries Garden -->
+                        <path d="M 110,225 C 135,215 185,220 205,235 L 195,270 C 175,255 125,250 100,260 Z"/>
+                        <!-- Champ de Mars -->
+                        <polygon points="15,310 65,320 50,405 5,395"/>
+                        <!-- Jardin du Luxembourg -->
+                        <rect x="195" y="515" width="75" height="70" rx="8"/>
+                        <!-- Esplanade des Invalides -->
+                        <polygon points="75,305 110,312 98,375 65,368"/>
+                      </g>
+
+                      <!-- 4. Street Network Casing Underlay (Pure fill="none") -->
+                      <g fill="none" stroke="#DCE4EC" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="8.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="4.5">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 5. River Seine Watercourse -->
+                      <path d="M -20,285 C 50,290 100,320 150,355 C 210,395 260,405 320,360 C 355,330 375,285 395,260 L 405,295 C 375,335 345,395 285,435 C 225,470 160,425 110,380 C 60,335 -10,315 -20,312 Z" fill="url(#seineGradient_explore)"/>
+                      <path d="M 270,410 C 305,395 340,350 365,320 C 360,345 330,395 285,425 Z" fill="url(#seineGradient_explore)"/>
+
+                      <!-- 6. Pure White Road Surface Overlay (Pure fill="none") -->
+                      <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="6.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="3">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 7. Bridges across River Seine -->
+                      <g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="butt">
+                        <line x1="88" y1="332" x2="100" y2="362"/>
+                        <line x1="152" y1="375" x2="170" y2="408"/>
+                        <line x1="228" y1="400" x2="242" y2="435"/>
+                        <line x1="305" y1="375" x2="320" y2="412"/>
+                      </g>
+
+                      <!-- 8. Cartographic Typography (Dual French/Cyrillic Matching Reference) -->
+                      <g font-family="'Inter', -apple-system, sans-serif" letter-spacing="0.4px">
+                        <text x="175" y="165" font-size="8.5" font-weight="700" fill="#64748B">ЛЕЗ АЛЬ / LES HALLES</text>
+                        <text x="180" y="315" font-size="8.5" font-weight="700" fill="#64748B">ИЛЬ ДЕ ЛА СИТЕ / ÎLE DE LA CITÉ</text>
+                        <text x="95" y="555" font-size="8.5" font-weight="700" fill="#64748B">ОДЕОН / ODÉON</text>
+                        <text x="35" y="98" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Сент-Оноре / RUE SAINT-HONORÉ</text>
+                        <text x="65" y="152" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Риволи / RUE DE RIVOLI</text>
+                        <text x="105" y="495" font-size="7.5" font-weight="600" fill="#94A3B8">був. Сен-Жермен / BD SAINT-GERMAIN</text>
+                        <text x="15" y="318" font-size="7.5" font-weight="700" fill="#38BDF8">ул. Сена / R. SEINE</text>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <!-- Floating Vertical Tool Stack (Right) -->
+                  <div class="ios-floating-tools">
+                    <div class="ios-tool-avatar" title="User Profile">
+                      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22 fill=%22%231E66FF%22><circle cx=%2220%22 cy=%2220%22 r=%2220%22/><circle cx=%2220%22 cy=%2215%22 r=%226%22 fill=%22%23fff%22/><path d=%22M8 34c0-7 5.4-12 12-12s12 5 12 12z%22 fill=%22%23fff%22/></svg>'">
+                    </div>
+                    <button class="ios-tool-btn" title="Search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+                    <button class="ios-tool-btn" title="Share Location"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+                    <button class="ios-tool-btn" title="Layers &amp; Traffic"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
+                    <button class="ios-tool-btn" title="Current GPS Orientation" style="color: #1E66FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></button>
+                  </div>
+
+                  <!-- Landmark Pins Scattered Across Paris -->
+                  <!-- 1. Notre-Dame Cathedral -->
+                  <div class="paris-landmark-marker" style="top: 22%; left: 16%;" data-cat="attractions museums" onclick="selectShowcaseLandmark('notre_dame', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=140&q=80" alt="Notre-Dame" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%2394a3b8%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><path d=%22M12 36V14h6v22M26 36V14h6v22M18 24h8%22 stroke=%22%23475569%22 stroke-width=%222%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Notre-Dame Cathedral... +1 more</div>
+                  </div>
+
+                  <!-- 2. Place de la Concorde -->
+                  <div class="paris-landmark-marker" style="top: 19%; left: 66%;" data-cat="attractions" onclick="selectShowcaseLandmark('concorde', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=120&q=80" alt="Concorde" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23cbd5e1%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><path d=%22M22 6l-3 28h6z%22 fill=%22%23475569%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Place de la Concorde... +1 more</div>
+                  </div>
+
+                  <!-- 3. Eiffel Tower (Primary Landmark) -->
+                  <div class="paris-landmark-marker" style="top: 31%; left: 56%;" data-cat="attractions" onclick="selectShowcaseLandmark('eiffel', this)">
+                    <div class="landmark-photo-box" style="box-shadow: 0 8px 24px rgba(30, 102, 255, 0.28); border-color: #BFDBFE;">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=140&q=80" alt="Eiffel Tower" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><path d=%22M22 4l-9 34h18z%22 fill=%22%231e293b%22/><line x1=%2216%22 y1=%2222%22 x2=%2228%22 y2=%2222%22 stroke=%22%23fff%22 stroke-width=%222%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill" style="font-weight: 800; color: #1E66FF;">Eiffel Tower</div>
+                  </div>
+
+                  <!-- 4. Tuileries Garden (+3 Badge) -->
+                  <div class="paris-landmark-marker" style="top: 44%; left: 16%;" data-cat="attractions coffee" onclick="selectShowcaseLandmark('tuileries', this)">
+                    <div class="landmark-photo-box">
+                      <span class="landmark-count-badge">+3</span>
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=120&q=80" alt="Tuileries" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><circle cx=%2222%22 cy=%2220%22 r=%2210%22 fill=%22%2310b981%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Tuileries Garden, Opéra... +3 more</div>
+                  </div>
+
+                  <!-- 5. Louvre Museum -->
+                  <div class="paris-landmark-marker" style="top: 42%; left: 64%;" data-cat="museums attractions" onclick="selectShowcaseLandmark('louvre', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1565099824688-e93eb20fe622?auto=format&fit=crop&w=120&q=80" alt="Louvre" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><polygon points=%2222,10 8,34 36,34%22 fill=%22%23f59e0b%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Louvre Museum, Arc... +2 more</div>
+                  </div>
+
+                  <!-- 6. Arc de Triomphe -->
+                  <div class="paris-landmark-marker" style="top: 55%; left: 54%;" data-cat="attractions" onclick="selectShowcaseLandmark('arc', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=120&q=80" alt="Arc de Triomphe" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><rect x=%2210%22 y=%2210%22 width=%2224%22 height=%2224%22 fill=%22%23475569%22/><path d=%22M16 34v-10a6 6 0 0 1 12 0v10%22 fill=%22%23e2e8f0%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Arc de Triomphe, Hôtel... +2 more</div>
+                  </div>
+
+                  <!-- 7. Musée d'Orsay -->
+                  <div class="paris-landmark-marker" style="top: 65%; left: 74%;" data-cat="museums" onclick="selectShowcaseLandmark('orsay', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1582560475093-ba66accbc424?auto=format&fit=crop&w=120&q=80" alt="Musee d'Orsay" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><circle cx=%2222%22 cy=%2222%22 r=%228%22 fill=%22%23d97706%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Musée d'Orsay</div>
+                  </div>
+
+                  <!-- 8. Pont Neuf with cyan GPS dot -->
+                  <div class="paris-landmark-marker" style="top: 62%; left: 14%;" data-cat="attractions" onclick="selectShowcaseLandmark('pont_neuf', this)">
+                    <div class="landmark-photo-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1549144511-f099e773c147?auto=format&fit=crop&w=120&q=80" alt="Pont Neuf" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 44 44%22 fill=%22%23e2e8f0%22><rect width=%2244%22 height=%2244%22 fill=%22%23e2e8f0%22/><path d=%22M8 26c4-8 12-8 16 0c4-8 12-8 16 0%22 stroke=%22%230284c7%22 stroke-width=%223%22 fill=%22none%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill">Pont Neuf</div>
+                    <div class="landmark-gps-dot" style="bottom: -14px; left: 16px;">
+                      <div class="landmark-gps-radar-wave"></div>
+                    </div>
+                  </div>
+
+                  <!-- Curved Royal Blue Shelf & Bottom Drawer -->
+                  <div class="ios-curved-blue-shelf">
+                    <div class="ios-blue-wave-header">
+                      <div class="ios-shelf-handle"></div>
+                    </div>
+                    <div class="ios-white-drawer-card">
+                      <div class="drawer-explore-title">What are you looking for?</div>
+                      <div class="drawer-category-pills">
+                        <button class="cat-pill-btn active" onclick="filterShowcaseCategory(this, 'restaurants')">Restaurants</button>
+                        <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'hotels')">Hotels</button>
+                        <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'coffee')">Coffee shops</button>
+                        <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'museums')">Museums</button>
+                        <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'attractions')">Attractions</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="iphone-home-indicator"></div>
+              </div>
+            </div>
+
+            <!-- ------------------------------------------------------- -->
+            <!-- PHONE 2: LANDMARK DETAIL SHEET (EIFFEL TOWER)           -->
+            <!-- ------------------------------------------------------- -->
+            <div class="iphone-device-wrap">
+              <div class="iphone-screen-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Screen 2: Landmark Details</span>
+              </div>
+              <div class="iphone-chassis">
+                <div class="iphone-dynamic-island">
+                  <div class="di-camera"></div>
+                  <div class="di-sensor"></div>
+                </div>
+                <div class="iphone-status-bar">
+                  <span class="status-left">9:41</span>
+                  <div class="status-right">
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M2 19h20M2 15h16M2 11h12M2 7h8"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><rect width="18" height="11" x="2" y="7" rx="2.5"/><path d="M22 11v3"/><rect width="10" height="7" x="4" y="9" rx="1.5" fill="currentColor"/></svg>
+                  </div>
+                </div>
+
+                <div class="iphone-viewport">
+                  <!-- Paris Vector Map Canvas (Upper Stage) -->
+                  <div class="paris-map-stage">
+                    <svg class="paris-map-svg" viewBox="0 0 375 790" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="seineGradient_details" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#38BDF8"/>
+                          <stop offset="60%" stop-color="#2BAFF0"/>
+                          <stop offset="100%" stop-color="#1A9EE0"/>
+                        </linearGradient>
+                      </defs>
+
+                      <!-- 1. Map Base Terrain -->
+                      <rect width="375" height="790" fill="#EEF3F8"/>
+
+                      <!-- 2. Parisian City Parcels / Urban Blocks -->
+                      <g fill="#F5F8FB" stroke="#E2E8F0" stroke-width="0.8">
+                        <rect x="15" y="70" width="85" height="52" rx="6"/>
+                        <rect x="110" y="65" width="100" height="55" rx="6"/>
+                        <rect x="220" y="68" width="140" height="62" rx="6"/>
+                        <rect x="20" y="132" width="75" height="42" rx="6"/>
+                        <rect x="105" y="128" width="85" height="46" rx="6"/>
+                        <rect x="200" y="138" width="160" height="42" rx="6"/>
+                        <rect x="30" y="375" width="70" height="72" rx="6"/>
+                        <rect x="110" y="385" width="85" height="62" rx="6"/>
+                        <rect x="205" y="405" width="80" height="68" rx="6"/>
+                        <rect x="295" y="425" width="68" height="62" rx="6"/>
+                        <rect x="25" y="460" width="80" height="88" rx="6"/>
+                        <rect x="115" y="458" width="80" height="92" rx="6"/>
+                        <rect x="205" y="482" width="85" height="82" rx="6"/>
+                        <rect x="300" y="498" width="65" height="78" rx="6"/>
+                      </g>
+
+                      <!-- 3. Green Public Gardens & Parks -->
+                      <g fill="#D8EDD9" stroke="#C2DFC5" stroke-width="0.8" opacity="0.95">
+                        <!-- Tuileries Garden -->
+                        <path d="M 110,225 C 135,215 185,220 205,235 L 195,270 C 175,255 125,250 100,260 Z"/>
+                        <!-- Champ de Mars -->
+                        <polygon points="15,310 65,320 50,405 5,395"/>
+                        <!-- Jardin du Luxembourg -->
+                        <rect x="195" y="515" width="75" height="70" rx="8"/>
+                        <!-- Esplanade des Invalides -->
+                        <polygon points="75,305 110,312 98,375 65,368"/>
+                      </g>
+
+                      <!-- 4. Street Network Casing Underlay (Pure fill="none") -->
+                      <g fill="none" stroke="#DCE4EC" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="8.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="4.5">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 5. River Seine Watercourse -->
+                      <path d="M -20,285 C 50,290 100,320 150,355 C 210,395 260,405 320,360 C 355,330 375,285 395,260 L 405,295 C 375,335 345,395 285,435 C 225,470 160,425 110,380 C 60,335 -10,315 -20,312 Z" fill="url(#seineGradient_details)"/>
+                      <path d="M 270,410 C 305,395 340,350 365,320 C 360,345 330,395 285,425 Z" fill="url(#seineGradient_details)"/>
+
+                      <!-- 6. Pure White Road Surface Overlay (Pure fill="none") -->
+                      <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="6.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="3">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 7. Bridges across River Seine -->
+                      <g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="butt">
+                        <line x1="88" y1="332" x2="100" y2="362"/>
+                        <line x1="152" y1="375" x2="170" y2="408"/>
+                        <line x1="228" y1="400" x2="242" y2="435"/>
+                        <line x1="305" y1="375" x2="320" y2="412"/>
+                      </g>
+
+                      <!-- 8. Cartographic Typography (Dual French/Cyrillic Matching Reference) -->
+                      <g font-family="'Inter', -apple-system, sans-serif" letter-spacing="0.4px">
+                        <text x="175" y="165" font-size="8.5" font-weight="700" fill="#64748B">ЛЕЗ АЛЬ / LES HALLES</text>
+                        <text x="180" y="315" font-size="8.5" font-weight="700" fill="#64748B">ИЛЬ ДЕ ЛА СИТЕ / ÎLE DE LA CITÉ</text>
+                        <text x="95" y="555" font-size="8.5" font-weight="700" fill="#64748B">ОДЕОН / ODÉON</text>
+                        <text x="35" y="98" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Сент-Оноре / RUE SAINT-HONORÉ</text>
+                        <text x="65" y="152" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Риволи / RUE DE RIVOLI</text>
+                        <text x="105" y="495" font-size="7.5" font-weight="600" fill="#94A3B8">був. Сен-Жермен / BD SAINT-GERMAIN</text>
+                        <text x="15" y="318" font-size="7.5" font-weight="700" fill="#38BDF8">ул. Сена / R. SEINE</text>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <!-- Centered Eiffel Tower Pin on upper map -->
+                  <div class="paris-landmark-marker" style="top: 26%; left: 52%;">
+                    <div class="landmark-photo-box" style="width: 50px; height: 50px; box-shadow: 0 10px 28px rgba(30, 102, 255, 0.35); border: 2px solid #1E66FF;">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=140&q=80" alt="Eiffel Tower" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 50 50%22 fill=%22%23e2e8f0%22><rect width=%2250%22 height=%2250%22 fill=%22%23e2e8f0%22/><path d=%22M25 5l-10 38h20z%22 fill=%22%231E66FF%22/></svg>'">
+                    </div>
+                    <div class="landmark-label-pill" style="font-weight: 800; color: #1E66FF; font-size: 11px;">Eiffel Tower</div>
+                  </div>
+
+                  <!-- Floating Vertical Tool Stack -->
+                  <div class="ios-floating-tools">
+                    <div class="ios-tool-avatar">
+                      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar">
+                    </div>
+                    <button class="ios-tool-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+                    <button class="ios-tool-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+                    <button class="ios-tool-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
+                    <button class="ios-tool-btn" style="color: #1E66FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></button>
+                  </div>
+
+                  <!-- Expanded Bottom Details Sheet -->
+                  <div class="ios-curved-blue-shelf" style="top: 44%;">
+                    <div class="ios-blue-wave-header">
+                      <div class="ios-shelf-handle"></div>
+                    </div>
+                    <div class="ios-white-drawer-card" style="height: 100%; border-radius: 28px 28px 0 0; padding-bottom: 40px;">
+                      
+                      <!-- Title & Rating Header -->
+                      <div class="landmark-header-row">
+                        <div>
+                          <div class="landmark-title-name" id="showcaseLandmarkTitle">Eiffel Tower</div>
+                          <div class="landmark-type-tag" id="showcaseLandmarkSub">Historical landmark</div>
+                        </div>
+                        <div class="landmark-rating-box">
+                          <div class="landmark-stars-wrap">
+                            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                            <span class="landmark-rate-score" id="showcaseRateScore">4,7</span>
+                          </div>
+                          <div class="landmark-rate-count" id="showcaseRateCount">5089 rates</div>
+                        </div>
+                      </div>
+
+                      <!-- Open/Closes Status Badge -->
+                      <div class="landmark-status-row">
+                        <span class="badge-open-pill">● Open now</span>
+                        <span class="status-closes-text">• Closes 22:00</span>
+                      </div>
+
+                      <!-- 3 Photo Gallery Cards -->
+                      <div class="landmark-gallery-grid">
+                        <div class="gallery-thumb-item" title="Sunset View" onclick="showGalleryModal(0)">
+                          <img src="https://images.unsplash.com/photo-1543349689-9a4d426bee8e?auto=format&fit=crop&w=300&q=80" alt="Eiffel Sunset" onerror="this.src='https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=300&q=80'">
+                        </div>
+                        <div class="gallery-thumb-item" title="Lattice Upward View" onclick="showGalleryModal(1)">
+                          <img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?auto=format&fit=crop&w=300&q=80" alt="Eiffel Lattice" onerror="this.src='https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=300&q=80'">
+                        </div>
+                        <div class="gallery-thumb-item" title="Evening Lights" onclick="showGalleryModal(2)">
+                          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=300&q=80" alt="Eiffel Night" onerror="this.src='https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=300&q=80'">
+                        </div>
+                      </div>
+
+                      <!-- Action Buttons Row -->
+                      <div class="landmark-actions-row">
+                        <button class="landmark-action-btn primary" onclick="goToRouteScreen()" title="Get Directions to Eiffel Tower">Directions</button>
+                        <button class="landmark-action-btn" onclick="alert('Paris Monument Pass: Official E-Ticket booking €29.40')">Tickets</button>
+                        <button class="landmark-action-btn" onclick="alert('Floor Directory: 1st Floor Glass Floor • 2nd Floor Jules Verne Restaurant • 3rd Floor Gustave Eiffel Office')">Directory</button>
+                        <button class="landmark-action-btn" onclick="alert('5,089 Verified Traveler Reviews • 96% Recommended')">Reviews</button>
+                      </div>
+
+                      <!-- Detailed Information Accordion -->
+                      <div class="landmark-detailed-info">
+                        <div class="detailed-info-title">Detailed information</div>
+                        <div class="detailed-info-body" id="showcaseDetailedBody">
+                          The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. Named after the engineer Gustave Eiffel, whose company designed and built the tower as the centerpiece of the 1889 World's Fair. Standing at 330 meters tall, it remains the defining global cultural icon of France.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="iphone-home-indicator"></div>
+              </div>
+            </div>
+
+            <!-- ------------------------------------------------------- -->
+            <!-- PHONE 3: TURN-BY-TURN ROUTE & PUBLIC TRANSPORT          -->
+            <!-- ------------------------------------------------------- -->
+            <div class="iphone-device-wrap">
+              <div class="iphone-screen-label">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                <span>Screen 3: Turn-by-Turn Route</span>
+              </div>
+              <div class="iphone-chassis">
+                <div class="iphone-dynamic-island">
+                  <div class="di-camera"></div>
+                  <div class="di-sensor"></div>
+                </div>
+                <div class="iphone-status-bar">
+                  <span class="status-left">9:41</span>
+                  <div class="status-right">
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M2 19h20M2 15h16M2 11h12M2 7h8"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01"/></svg>
+                    <svg class="status-icon-svg" viewBox="0 0 24 24"><rect width="18" height="11" x="2" y="7" rx="2.5"/><path d="M22 11v3"/><rect width="10" height="7" x="4" y="9" rx="1.5" fill="currentColor"/></svg>
+                  </div>
+                </div>
+
+                <div class="iphone-viewport">
+                  <!-- Paris Vector Map Canvas with Polyline Route -->
+                  <div class="paris-map-stage">
+                    <svg class="paris-map-svg" viewBox="0 0 375 790" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="seineGradient_route" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stop-color="#38BDF8"/>
+                          <stop offset="60%" stop-color="#2BAFF0"/>
+                          <stop offset="100%" stop-color="#1A9EE0"/>
+                        </linearGradient>
+                      </defs>
+
+                      <!-- 1. Map Base Terrain -->
+                      <rect width="375" height="790" fill="#EEF3F8"/>
+
+                      <!-- 2. Parisian City Parcels / Urban Blocks -->
+                      <g fill="#F5F8FB" stroke="#E2E8F0" stroke-width="0.8">
+                        <rect x="15" y="70" width="85" height="52" rx="6"/>
+                        <rect x="110" y="65" width="100" height="55" rx="6"/>
+                        <rect x="220" y="68" width="140" height="62" rx="6"/>
+                        <rect x="20" y="132" width="75" height="42" rx="6"/>
+                        <rect x="105" y="128" width="85" height="46" rx="6"/>
+                        <rect x="200" y="138" width="160" height="42" rx="6"/>
+                        <rect x="30" y="375" width="70" height="72" rx="6"/>
+                        <rect x="110" y="385" width="85" height="62" rx="6"/>
+                        <rect x="205" y="405" width="80" height="68" rx="6"/>
+                        <rect x="295" y="425" width="68" height="62" rx="6"/>
+                        <rect x="25" y="460" width="80" height="88" rx="6"/>
+                        <rect x="115" y="458" width="80" height="92" rx="6"/>
+                        <rect x="205" y="482" width="85" height="82" rx="6"/>
+                        <rect x="300" y="498" width="65" height="78" rx="6"/>
+                      </g>
+
+                      <!-- 3. Green Public Gardens & Parks -->
+                      <g fill="#D8EDD9" stroke="#C2DFC5" stroke-width="0.8" opacity="0.95">
+                        <!-- Tuileries Garden -->
+                        <path d="M 110,225 C 135,215 185,220 205,235 L 195,270 C 175,255 125,250 100,260 Z"/>
+                        <!-- Champ de Mars -->
+                        <polygon points="15,310 65,320 50,405 5,395"/>
+                        <!-- Jardin du Luxembourg -->
+                        <rect x="195" y="515" width="75" height="70" rx="8"/>
+                        <!-- Esplanade des Invalides -->
+                        <polygon points="75,305 110,312 98,375 65,368"/>
+                      </g>
+
+                      <!-- 4. Street Network Casing Underlay (Pure fill="none") -->
+                      <g fill="none" stroke="#DCE4EC" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="8.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="4.5">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 5. River Seine Watercourse -->
+                      <path d="M -20,285 C 50,290 100,320 150,355 C 210,395 260,405 320,360 C 355,330 375,285 395,260 L 405,295 C 375,335 345,395 285,435 C 225,470 160,425 110,380 C 60,335 -10,315 -20,312 Z" fill="url(#seineGradient_route)"/>
+                      <path d="M 270,410 C 305,395 340,350 365,320 C 360,345 330,395 285,425 Z" fill="url(#seineGradient_route)"/>
+
+                      <!-- 6. Pure White Road Surface Overlay (Pure fill="none") -->
+                      <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+                        <g stroke-width="6.5">
+                          <path d="M -20,130 L 150,170 L 260,200 L 395,245"/>
+                          <path d="M 150,170 L 115,350"/>
+                          <path d="M 260,200 L 290,410"/>
+                          <path d="M -15,225 L 395,285"/>
+                          <path d="M 30,365 L 395,430"/>
+                          <path d="M 220,90 L 250,380 L 265,580"/>
+                          <path d="M 60,70 L 95,230 L 80,420 L 65,600"/>
+                          <path d="M 310,110 L 330,340 L 345,580"/>
+                          <path d="M 115,350 L 205,430 L 315,500 L 395,540"/>
+                        </g>
+                        <g stroke-width="3">
+                          <line x1="20" y1="185" x2="360" y2="235"/>
+                          <line x1="15" y1="265" x2="360" y2="320"/>
+                          <line x1="25" y1="440" x2="360" y2="495"/>
+                          <line x1="35" y1="520" x2="360" y2="560"/>
+                          <line x1="140" y1="95" x2="160" y2="340"/>
+                          <line x1="180" y1="170" x2="200" y2="420"/>
+                          <line x1="280" y1="410" x2="260" y2="590"/>
+                        </g>
+                      </g>
+
+                      <!-- 7. Bridges across River Seine -->
+                      <g fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="butt">
+                        <line x1="88" y1="332" x2="100" y2="362"/>
+                        <line x1="152" y1="375" x2="170" y2="408"/>
+                        <line x1="228" y1="400" x2="242" y2="435"/>
+                        <line x1="305" y1="375" x2="320" y2="412"/>
+                      </g>
+
+                      <!-- ACTIVE NAVIGATION POLYLINE: Eiffel Tower -> Arc de Triomphe (WITH DYNAMIC LIGHT STREAM) -->
+                      <g fill="none">
+                        <!-- Cyan Underlay Glow -->
+                        <path d="M 298,160 L 295,225 L 290,310 L 286,430" 
+                              stroke="#38BDF8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.45"/>
+                        <!-- Vibrant Base Navigation Line -->
+                        <path id="routePolylineShowcase" d="M 298,160 L 295,225 L 290,310 L 286,430" 
+                              stroke="#1E66FF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Animated White Dashed Light-Stream -->
+                        <path d="M 298,160 L 295,225 L 290,310 L 286,430" 
+                              class="route-polyline-animated"
+                              stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+                        <!-- Waypoints -->
+                        <circle cx="298" cy="160" r="5" fill="#1E66FF" stroke="#FFFFFF" stroke-width="2"/>
+                        <circle cx="286" cy="430" r="5" fill="#EF4444" stroke="#FFFFFF" stroke-width="2"/>
+
+                        <!-- DYNAMIC NAVIGATION VEHICLE PUCK GLIDING IN REAL-TIME -->
+                        <g id="showcaseNavVehiclePuck">
+                          <circle id="puckRadarRing" cx="298" cy="160" r="14" stroke="#00B4D8" stroke-width="2" opacity="0.6"/>
+                          <circle id="puckCore" cx="298" cy="160" r="7.5" fill="#10B981" stroke="#FFFFFF" stroke-width="2.5"/>
+                          <polygon id="puckChevron" points="298,154 294,163 298,161 302,163" fill="#FFFFFF"/>
+                        </g>
+                      </g>
+        
+                      <!-- 8. Cartographic Typography (Dual French/Cyrillic Matching Reference) -->
+                      <g font-family="'Inter', -apple-system, sans-serif" letter-spacing="0.4px">
+                        <text x="175" y="165" font-size="8.5" font-weight="700" fill="#64748B">ЛЕЗ АЛЬ / LES HALLES</text>
+                        <text x="180" y="315" font-size="8.5" font-weight="700" fill="#64748B">ИЛЬ ДЕ ЛА СИТЕ / ÎLE DE LA CITÉ</text>
+                        <text x="95" y="555" font-size="8.5" font-weight="700" fill="#64748B">ОДЕОН / ODÉON</text>
+                        <text x="35" y="98" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Сент-Оноре / RUE SAINT-HONORÉ</text>
+                        <text x="65" y="152" font-size="7.5" font-weight="600" fill="#94A3B8">ул. Риволи / RUE DE RIVOLI</text>
+                        <text x="105" y="495" font-size="7.5" font-weight="600" fill="#94A3B8">був. Сен-Жермен / BD SAINT-GERMAIN</text>
+                        <text x="15" y="318" font-size="7.5" font-weight="700" fill="#38BDF8">ул. Сена / R. SEINE</text>
+                      </g>
+                    </svg>
+                  </div>
+
+                  <!-- Floating Vertical Tool Stack -->
+                  <div class="ios-floating-tools" style="top: 140px;">
+                    <div class="ios-tool-avatar">
+                      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar">
+                    </div>
+                    <button class="ios-tool-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+                    <button class="ios-tool-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+                    <button class="ios-tool-btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
+                    <button class="ios-tool-btn" style="color: #1E66FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></button>
+                  </div>
+
+                  <!-- Top Floating Route Card (With Integrated Live Turn Guidance) -->
+                  <div class="ios-top-route-card" id="phone3LiveHud">
+                    <div class="phone3-turn-header">
+                      <div class="p3-turn-left">
+                        <div class="p3-turn-badge" id="p3TurnIcon">↱</div>
+                        <div class="p3-turn-info">
+                          <span class="p3-turn-lead" id="p3NextManeuver">In 240m • Turn Right</span>
+                          <span class="p3-turn-sub" id="p3NextStreet">Pont d'Iéna toward Kléber</span>
+                        </div>
+                      </div>
+                      <div class="p3-live-speed" id="p3LiveSpeedTag">48.2 km/h</div>
+                    </div>
+
+                    <div class="route-card-bottom-row">
+                      <div class="route-points-col">
+                        <div class="route-point-row">
+                          <div class="dot-origin"></div>
+                          <div class="route-point-text">
+                            <span class="point-name">Eiffel Tower</span>
+                            <span class="point-desc">Your location</span>
+                          </div>
+                        </div>
+                        <div class="route-point-row">
+                          <div class="dot-dest"></div>
+                          <div class="route-point-text">
+                            <span class="point-name">Arc de Triomphe</span>
+                            <span class="point-desc">Finish point</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="route-card-actions">
+                        <button class="route-card-icon-btn" onclick="swapRouteEndpoints()" title="Swap Origin and Destination">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+                        </button>
+                        <button class="route-card-icon-btn" title="Route Settings">
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Origin Marker (Eiffel Tower) -->
+                  <div class="paris-landmark-marker" style="top: 20%; left: 81%;">
+                    <div class="landmark-photo-box" style="width: 38px; height: 38px;">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=120&q=80" alt="Eiffel Tower">
+                    </div>
+                    <div class="landmark-label-pill" style="font-size: 9px;">Eiffel Tower</div>
+                  </div>
+
+                  <!-- Destination Marker (Arc de Triomphe with Red Halo Frame) -->
+                  <div class="paris-landmark-marker" style="top: 55%; left: 78%;">
+                    <div class="destination-highlight-box">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=140&q=80" alt="Arc de Triomphe">
+                    </div>
+                    <div class="landmark-label-pill" style="font-weight: 800; color: #EF4444;">Arc de Triomphe</div>
+                  </div>
+
+                  <!-- Other landmarks on the route map -->
+                  <div class="paris-landmark-marker" style="top: 36%; left: 24%;">
+                    <div class="landmark-photo-box" style="width: 36px; height: 36px;">
+                      <span class="landmark-count-badge">+3</span>
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&w=100&q=80" alt="Tuileries">
+                    </div>
+                    <div class="landmark-label-pill" style="font-size: 8.5px;">Tuileries Garden, Opéra... +3 more</div>
+                  </div>
+
+                  <div class="paris-landmark-marker" style="top: 38%; left: 56%;">
+                    <div class="landmark-photo-box" style="width: 36px; height: 36px;">
+                      <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1565099824688-e93eb20fe622?auto=format&fit=crop&w=100&q=80" alt="Louvre">
+                    </div>
+                    <div class="landmark-label-pill" style="font-size: 8.5px;">Louvre Museum, Arc... +2 more</div>
+                  </div>
+
+                  <!-- Curved Blue Wave & Public Transport Bottom Sheet -->
+                  <div class="ios-curved-blue-shelf">
+                    <div class="ios-blue-wave-header">
+                      <div class="ios-shelf-handle"></div>
+                    </div>
+                    <div class="ios-white-drawer-card">
+                      <!-- Header row -->
+                      <div class="transit-sheet-header">
+                        <div class="transit-sheet-title">Public transport</div>
+                        <div class="transit-header-actions">
+                          <button class="transit-action-circle" id="btnFavoriteRoute" onclick="toggleFavoriteRoute(this)" title="Save to Favorites">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                          </button>
+                          <button class="transit-action-circle" onclick="alert('Share Route link copied to clipboard!')" title="Share Directions">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      <!-- Mode Selector Tabs -->
+                      <div class="transit-mode-tabs">
+                        <button class="mode-tab-pill active" onclick="switchTransitModeTab(this, 'transit', '17 min', '17 km • 5:20-5:40', '2,99 $', true)">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/></svg>
+                          <span>17 min</span>
+                        </button>
+                        <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'walking', '1 h 20 min', '4.8 km • Direct', 'Free', false)">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1.5"/><path d="m9 20 3-6 3 6M10 14l2-4 2 4"/></svg>
+                          <span>1 h 20 min</span>
+                        </button>
+                        <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'cycling', '40 min', '5.1 km • River Bike Path', 'Free', false)">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5L9 12l4-3 3 3"/></svg>
+                          <span>40 min</span>
+                        </button>
+                        <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'taxi', '14 min', '5.4 km • Via Av. Kleber', '12,50 €', false)">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+                          <span>14 min</span>
+                        </button>
+                      </div>
+
+                      <!-- Route Summary Details Card -->
+                      <div class="transit-route-summary-card" id="transitSummaryBox">
+                        <span class="tag-fastest" id="transitRouteTag">Fastest</span>
+                        <div class="transit-timing-row">
+                          <div>
+                            <span class="transit-time-big" id="transitTimeVal">17 min</span>
+                            <span class="transit-dist-span" id="transitDistVal">17 km • 5:20-5:40</span>
+                          </div>
+                          <div class="transit-fare-price" id="transitFareVal">2,99 $</div>
+                        </div>
+
+                        <!-- Step Itinerary -->
+                        <div class="transit-itinerary-steps" id="transitItineraryBox">
+                          <span>🚶 1 min</span>
+                          <span class="step-arrow-icon">▶</span>
+                          <span class="bus-capsule"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect width="14" height="14" x="5" y="4" rx="2"/></svg> 56</span>
+                          <span class="bus-capsule"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><rect width="14" height="14" x="5" y="4" rx="2"/></svg> 24</span>
+                          <span class="step-arrow-icon">▶</span>
+                          <span>🚶 16 min</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="iphone-home-indicator"></div>
+              </div>
+            </div>
+
+          </div><!-- /iphone-showcase-container -->
+
+          <!-- ========================================================= -->
+          <!-- MODE 2: SINGLE INTERACTIVE DEVICE SIMULATOR                -->
+          <!-- ========================================================= -->
+          <div class="single-device-container" id="singleDeviceSimulatorView">
+            <div class="simulator-screen-switcher">
+              <button class="sim-tab-btn active" id="btnSimTabExplore" onclick="setSimulatorScreen('explore')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/></svg>
+                <span>1. Explore Paris</span>
+              </button>
+              <button class="sim-tab-btn" id="btnSimTabDetails" onclick="setSimulatorScreen('details')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5 8 12 8 12s8-7 8-12a8 8 0 0 0-8-8z"/></svg>
+                <span>2. Place Details</span>
+              </button>
+              <button class="sim-tab-btn" id="btnSimTabRoute" onclick="setSimulatorScreen('route')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                <span>3. Directions &amp; Transit</span>
+              </button>
+            </div>
+
+            <!-- Single Device Frame -->
+            <div class="iphone-chassis" id="interactiveIphoneChassis" style="width: 390px; height: 820px; box-shadow: 0 0 0 6px #262933, 0 0 0 9px #121318, 0 0 0 12px #353a47, 0 35px 80px -15px rgba(0, 0, 0, 0.85);">
+              <div class="iphone-dynamic-island">
+                <div class="di-camera"></div>
+                <div class="di-sensor"></div>
+              </div>
+              <div class="iphone-status-bar">
+                <span class="status-left">9:41</span>
+                <div class="status-right">
+                  <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M2 19h20M2 15h16M2 11h12M2 7h8"/></svg>
+                  <svg class="status-icon-svg" viewBox="0 0 24 24"><path d="M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0M12 20h.01"/></svg>
+                  <svg class="status-icon-svg" viewBox="0 0 24 24"><rect width="18" height="11" x="2" y="7" rx="2.5"/><path d="M22 11v3"/><rect width="10" height="7" x="4" y="9" rx="1.5" fill="currentColor"/></svg>
+                </div>
+              </div>
+
+              <!-- Live IDR Dead Reckoning HUD Overlay -->
+              <div class="iphone-idr-hud" id="simIdrHud">
+                <span class="hud-dot" id="simIdrDot"></span>
+                <span id="simIdrStateText">GNSS+INS Nominal (±0.4m)</span>
+              </div>
+
+              <div class="iphone-viewport" id="simViewport">
+                <!-- Paris Map Layer -->
+                <div class="paris-map-stage" id="simMapStage">
+                  <svg class="paris-map-svg" viewBox="0 0 375 790" preserveAspectRatio="none">
+                    <rect width="375" height="790" fill="#EEF3F8"/>
+                    <g stroke="#FFFFFF" stroke-width="7" stroke-linecap="round">
+                      <path d="M -20,130 L 150,170 L 260,200 L 390,260"/>
+                      <path d="M 150,170 L 120,380"/>
+                      <path d="M 260,200 L 290,420"/>
+                      <path d="M 120,380 L 210,460 L 320,530"/>
+                      <path d="M 50,260 L 350,320"/>
+                    </g>
+                    <path d="M -20,290 C 60,300 120,340 170,380 C 230,430 280,440 340,390 C 375,350 390,300 410,270 L 420,305 C 385,345 350,425 280,475 C 220,515 150,465 100,415 C 50,365 -10,340 -20,335 Z" fill="#22A6F2"/>
+                    <line x1="102" y1="358" x2="114" y2="390" stroke="#FFFFFF" stroke-width="4"/>
+                    <line x1="172" y1="412" x2="190" y2="445" stroke="#FFFFFF" stroke-width="4"/>
+
+                    <!-- Dynamic Navigation Route in Simulator -->
+                    <g id="simRouteGroup" style="display: none;">
+                      <path d="M 306,170 L 302,230 L 298,320 L 295,440" stroke="#38BDF8" stroke-width="10" stroke-linecap="round" opacity="0.35"/>
+                      <path d="M 306,170 L 302,230 L 298,320 L 295,440" stroke="#1E66FF" stroke-width="6" stroke-linecap="round"/>
+                      <circle id="simNavVehicle" cx="306" cy="170" r="7" fill="#10B981" stroke="#ffffff" stroke-width="2.5"/>
+                    </g>
+                  </svg>
+                </div>
+
+                <!-- Floating Actions in Simulator -->
+                <div class="ios-floating-tools" style="top: 80px;">
+                  <div class="ios-tool-avatar" onclick="alert('Profile: Dev Bhavsar - Paris Traveler Mode')">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&q=80" alt="Avatar">
+                  </div>
+                  <button class="ios-tool-btn" onclick="promptSearch()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+                  <button class="ios-tool-btn" onclick="alert('Link copied!')"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+                  <button class="ios-tool-btn" onclick="toggleMapStyle()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></button>
+                  <button class="ios-tool-btn" onclick="recenterEiffel()" style="color: #1E66FF;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></button>
+                </div>
+
+                <!-- Interactive Landmark Markers -->
+                <div class="paris-landmark-marker" id="simMarkerEiffel" style="top: 26%; left: 56%;" onclick="openSimLandmark('eiffel')">
+                  <div class="landmark-photo-box" style="border-color: #BFDBFE;">
+                    <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=140&q=80" alt="Eiffel Tower">
+                  </div>
+                  <div class="landmark-label-pill" style="font-weight: 800; color: #1E66FF;">Eiffel Tower</div>
+                </div>
+
+                <div class="paris-landmark-marker" id="simMarkerArc" style="top: 55%; left: 58%;" onclick="openSimLandmark('arc')">
+                  <div class="landmark-photo-box" id="simArcBox">
+                    <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=120&q=80" alt="Arc de Triomphe">
+                  </div>
+                  <div class="landmark-label-pill">Arc de Triomphe</div>
+                </div>
+
+                <div class="paris-landmark-marker" id="simMarkerLouvre" style="top: 42%; left: 66%;" onclick="openSimLandmark('louvre')">
+                  <div class="landmark-photo-box">
+                    <img class="landmark-photo-img" src="https://images.unsplash.com/photo-1565099824688-e93eb20fe622?auto=format&fit=crop&w=120&q=80" alt="Louvre">
+                  </div>
+                  <div class="landmark-label-pill">Louvre Museum</div>
+                </div>
+
+                <!-- Top Route Card (shown only on screen 'route') -->
+                <div class="ios-top-route-card" id="simTopRouteCard" style="display: none; top: 80px;">
+                  <div class="route-points-col">
+                    <div class="route-point-row">
+                      <div class="dot-origin"></div>
+                      <div class="route-point-text">
+                        <span class="point-name" id="simOriginText">Eiffel Tower</span>
+                        <span class="point-desc">Your location</span>
+                      </div>
+                    </div>
+                    <div class="route-point-row">
+                      <div class="dot-dest"></div>
+                      <div class="route-point-text">
+                        <span class="point-name" id="simDestText">Arc de Triomphe</span>
+                        <span class="point-desc">Finish point</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="route-card-actions">
+                    <button class="route-card-icon-btn" onclick="swapRouteEndpoints()" title="Swap Endpoints">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Dynamic Bottom Shelf for Simulator -->
+                <!-- 1. Explore Drawer Content -->
+                <div class="ios-curved-blue-shelf" id="simShelfExplore">
+                  <div class="ios-blue-wave-header"><div class="ios-shelf-handle"></div></div>
+                  <div class="ios-white-drawer-card">
+                    <div class="drawer-explore-title">What are you looking for?</div>
+                    <div class="drawer-category-pills">
+                      <button class="cat-pill-btn active" onclick="filterShowcaseCategory(this, 'restaurants')">Restaurants</button>
+                      <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'hotels')">Hotels</button>
+                      <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'coffee')">Coffee shops</button>
+                      <button class="cat-pill-btn" onclick="filterShowcaseCategory(this, 'museums')">Museums</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Details Sheet Content -->
+                <div class="ios-curved-blue-shelf" id="simShelfDetails" style="display: none; top: 44%;">
+                  <div class="ios-blue-wave-header"><div class="ios-shelf-handle"></div></div>
+                  <div class="ios-white-drawer-card" style="height: 100%;">
+                    <div class="landmark-header-row">
+                      <div>
+                        <div class="landmark-title-name" id="simLandmarkTitle">Eiffel Tower</div>
+                        <div class="landmark-type-tag" id="simLandmarkSubtitle">Historical landmark</div>
+                      </div>
+                      <div class="landmark-rating-box">
+                        <div class="landmark-stars-wrap"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span><span class="landmark-rate-score" id="simRatingScore">4,7</span></div>
+                        <div class="landmark-rate-count" id="simRatingCount">5089 rates</div>
+                      </div>
+                    </div>
+                    <div class="landmark-status-row">
+                      <span class="badge-open-pill">● Open now</span>
+                      <span class="status-closes-text">• Closes 22:00</span>
+                    </div>
+                    <div class="landmark-gallery-grid">
+                      <div class="gallery-thumb-item"><img src="https://images.unsplash.com/photo-1543349689-9a4d426bee8e?auto=format&fit=crop&w=300&q=80" alt="Photo 1"></div>
+                      <div class="gallery-thumb-item"><img src="https://images.unsplash.com/photo-1431274172761-fca41d930114?auto=format&fit=crop&w=300&q=80" alt="Photo 2"></div>
+                      <div class="gallery-thumb-item"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=300&q=80" alt="Photo 3"></div>
+                    </div>
+                    <div class="landmark-actions-row">
+                      <button class="landmark-action-btn primary" onclick="setSimulatorScreen('route')">Directions</button>
+                      <button class="landmark-action-btn" onclick="alert('Tickets booked!')">Tickets</button>
+                      <button class="landmark-action-btn" onclick="alert('Directory info')">Directory</button>
+                      <button class="landmark-action-btn" onclick="alert('Reviews')">Reviews</button>
+                    </div>
+                    <div class="landmark-detailed-info">
+                      <div class="detailed-info-title">Detailed information</div>
+                      <div class="detailed-info-body" id="simLandmarkDesc">
+                        The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. Named after the engineer Gustave Eiffel, it is Paris's most visited paid monument.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Route Sheet Content -->
+                <div class="ios-curved-blue-shelf" id="simShelfRoute" style="display: none;">
+                  <div class="ios-blue-wave-header"><div class="ios-shelf-handle"></div></div>
+                  <div class="ios-white-drawer-card">
+                    <div class="transit-sheet-header">
+                      <div class="transit-sheet-title">Public transport</div>
+                      <div class="transit-header-actions">
+                        <button class="transit-action-circle" onclick="toggleFavoriteRoute(this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+                        <button class="transit-action-circle" onclick="alert('Route link copied!')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+                      </div>
+                    </div>
+                    <div class="transit-mode-tabs">
+                      <button class="mode-tab-pill active" onclick="switchTransitModeTab(this, 'transit', '17 min', '17 km • 5:20-5:40', '2,99 $', true)">🚌 17 min</button>
+                      <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'walking', '1 h 20 min', '4.8 km • Direct', 'Free', false)">🚶 1 h 20 min</button>
+                      <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'cycling', '40 min', '5.1 km • River Bike Path', 'Free', false)">🚲 40 min</button>
+                      <button class="mode-tab-pill" onclick="switchTransitModeTab(this, 'taxi', '14 min', '5.4 km • Via Av. Kleber', '12,50 €', false)">🚕 14 min</button>
+                    </div>
+                    <div class="transit-route-summary-card">
+                      <span class="tag-fastest">Fastest</span>
+                      <div class="transit-timing-row">
+                        <div>
+                          <span class="transit-time-big">17 min</span>
+                          <span class="transit-dist-span">17 km • 5:20-5:40</span>
+                        </div>
+                        <div class="transit-fare-price">2,99 $</div>
+                      </div>
+                      <div class="transit-itinerary-steps">
+                        <span>🚶 1 min</span>
+                        <span class="step-arrow-icon">▶</span>
+                        <span class="bus-capsule">🚌 56</span>
+                        <span class="bus-capsule">🚌 24</span>
+                        <span class="step-arrow-icon">▶</span>
+                        <span>🚶 16 min</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="iphone-home-indicator"></div>
+            </div>
+          </div><!-- /single-device-container -->
+
+        </div><!-- /mobile-app-wrapper -->
+      </div><!-- /tab-mobileapp -->
+
+
       <!-- ========================================== -->
       <!-- TAB 1: LIVE 3D FUSION COCKPIT             -->
       <!-- ========================================== -->
-      <div id="tab-cockpit" class="tab-content active">
+      <div id="tab-cockpit" class="tab-content">
 
         <!-- Architecture Guide Toolbar -->
         <div class="explainer-toolbar" id="explainerToolbar">
@@ -4254,8 +6529,146 @@ P(candidate_j | candidate_i) = RoutePlausibility(i → j)
     // MAIN DRAW LOOP: 100HZ FUSION & HIGH-FIDELITY GIS RENDERING
     // =========================================================
     function draw() {
-      if (!canvas.width) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // 1. VEHICLE KINEMATICS & SCENARIO PROGRESSION (Always runs at 60 FPS across all tabs!)
+      if (isPlaying) time += 0.035 * (typeof simSpeedMultiplier !== "undefined" ? simSpeedMultiplier : 1.0);
+      const progress = (time % 40) / 40;
+
+      // Kinematic Corridor State Interpolation
+      let curLon, curLat, curAlt, headingDeg, roadSegmentName, activeEdge, levelStr, layerName, layerColor, speedLimit;
+      let motionClass = "NORMAL_DRIVING", motionPct = 95;
+      let pitchDeg = +0.5, rollDeg = -0.3;
+      let isRamp = false;
+
+      const isOutage = gnssOutageActive || (progress >= 0.44 && progress <= 0.78);
+
+      if (progress < 0.32) {
+        // Phase 1: Barapullah Flyover (+12m)
+        const tSub = progress / 0.32;
+        curLon = 77.2295 + tSub * (77.2375 - 77.2295);
+        curLat = 28.5810 + tSub * (28.5840 - 28.5810);
+        curAlt = 226.2;
+        headingDeg = 75.4;
+        roadSegmentName = "Barapullah Elevated Expressway (+12m Deck)";
+        activeEdge = "Edge #1042: Barapullah Elevated";
+        levelStr = "+1";
+        layerName = "FLYOVER (+12m)";
+        layerColor = "#15803d";
+        speedLimit = 80;
+        pitchDeg = +0.6;
+        motionClass = "NORMAL_DRIVING";
+        motionPct = 96;
+      } else if (progress < 0.44) {
+        // Phase 2: Descent Ramp (+12m -> -6m)
+        isRamp = true;
+        const tSub = (progress - 0.32) / 0.12;
+        curLon = 77.2375 + tSub * (77.2368 - 77.2375);
+        curLat = 28.5840 + tSub * (28.5828 - 28.5840);
+        curAlt = 226.2 - tSub * (226.2 - 208.2);
+        headingDeg = 112.0;
+        roadSegmentName = "Connector Ramp to AIIMS Underpass";
+        activeEdge = "Edge #1045: Ramp Eastbound";
+        levelStr = "0 (Ramp)";
+        layerName = "RAMP DESCENT";
+        layerColor = "#d97706";
+        speedLimit = 50;
+        pitchDeg = -3.2;
+        motionClass = "ACCELERATION";
+        motionPct = 88;
+      } else if (progress < 0.78) {
+        // Phase 3: AIIMS Underpass Tunnel (-6m Outage)
+        const tSub = (progress - 0.44) / 0.34;
+        curLon = 77.2368 + tSub * (77.2428 - 77.2368);
+        curLat = 28.5828 + tSub * (28.5852 - 28.5828);
+        curAlt = 208.2;
+        headingDeg = 72.8;
+        roadSegmentName = "AIIMS Underpass Subterranean Tunnel (-6m)";
+        activeEdge = "Edge #1048: Ring Road Underpass Tunnel";
+        levelStr = "-1";
+        layerName = "UNDERPASS (-6m)";
+        layerColor = "#d97706";
+        speedLimit = 60;
+        pitchDeg = +0.2;
+        motionClass = "TUNNEL_STEADY_CRUISE";
+        motionPct = 98;
+      } else {
+        // Phase 4: Surface Ring Road (0m)
+        const tSub = (progress - 0.78) / 0.22;
+        curLon = 77.2428 + tSub * (77.2465 - 77.2428);
+        curLat = 28.5852 + tSub * (28.5870 - 28.5852);
+        curAlt = 214.2;
+        headingDeg = 76.5;
+        roadSegmentName = "Ring Road Surface Eastbound";
+        activeEdge = "Edge #1052: Ring Road Surface";
+        levelStr = "0";
+        layerName = "SURFACE (0m)";
+        layerColor = "#0284c7";
+        speedLimit = 70;
+        pitchDeg = +0.4;
+        motionClass = "NORMAL_DRIVING";
+        motionPct = 94;
+      }
+
+      // Speed Dynamics (~50 km/h ± noise)
+      const speedKmh = isOutage ? (52.2 + Math.sin(time * 0.8) * 3.4) : (49.4 + Math.cos(time * 0.5) * 1.8);
+      const speedMps = speedKmh / 3.6;
+
+      // Covariance Growth inside Tunnel
+      const outageFraction = isOutage ? Math.min(1.0, (progress - 0.44) / 0.34) : 0;
+      const sigma = isOutage ? (0.35 + outageFraction * 1.1) : 0.35;
+      const uncorrectedDrift = isOutage ? (0.8 + Math.pow(outageFraction, 2.5) * 63.4) : 0.8;
+      const idrDrift = isOutage ? (0.4 + outageFraction * 0.7) : 0.4;
+
+      const simState = {
+        lat: curLat,
+        progress: progress,
+        lon: curLon,
+        alt: curAlt,
+        speedKmh: speedKmh,
+        speedMps: speedMps,
+        headingDeg: headingDeg,
+        pitchDeg: pitchDeg,
+        rollDeg: rollDeg,
+        isOutage: isOutage,
+        isRamp: isRamp,
+        outageSec: (outageFraction * 60).toFixed(0),
+        roadSegmentName: roadSegmentName,
+        activeEdge: activeEdge,
+        levelStr: levelStr,
+        layerName: layerName,
+        layerColor: layerColor,
+        speedLimit: speedLimit,
+        motionClass: motionClass,
+        motionPct: motionPct,
+        sigma: sigma,
+        uncorrectedDrift: uncorrectedDrift,
+        idrDrift: idrDrift,
+        ax: Math.sin(time * 5.0) * 1.5,
+        ay: Math.cos(time * 3.5) * 0.8,
+        vz: (curAlt > 214 ? +0.05 : curAlt < 214 ? -0.08 : 0.0),
+        errX: (Math.sin(time) * 0.015 * sigma),
+        errY: (Math.cos(time) * 0.012 * sigma),
+        errZ: (Math.sin(time * 0.5) * 0.035 * sigma),
+        errVx: (Math.sin(time * 2) * 0.02 * sigma),
+        errVy: (Math.cos(time * 2) * 0.01 * sigma),
+        errVz: (Math.sin(time) * 0.01 * sigma),
+        q0: 0.998,
+        q1: 0.012,
+        q2: -0.008,
+        q3: 0.054 + Math.sin(time * 0.1) * 0.01,
+        hmmConf: isOutage ? 0.965 : 0.988,
+        dPerp: 0.35 + Math.abs(Math.sin(time)) * 0.25,
+        nis: isOutage ? 14.8 : (2.12 + Math.sin(time) * 0.4)
+      };
+
+      // Always synchronize global telemetry across all tabs
+      updateAllTabsTelemetry(simState);
+
+      // Animate Paris Mobile App Live Route & Vehicle
+      updateParisMobileDynamicNavigation(simState);
+
+      // 2. 3D COCKPIT CANVAS RENDERING (Only if canvas has active dimensions)
+      if (canvas && canvas.width > 0 && canvas.height > 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
 
@@ -4723,9 +7136,10 @@ P(candidate_j | candidate_i) = RoutePlausibility(i → j)
 
       // Draw Oscilloscope
       drawOscilloscope();
-
-      requestAnimationFrame(draw);
     }
+
+    requestAnimationFrame(draw);
+  }
 
     
     // Oscilloscope Animation
@@ -4812,7 +7226,459 @@ P(candidate_j | candidate_i) = RoutePlausibility(i → j)
     }
 
     // Multi-page Vertical Sidebar Routing
+
+    // =========================================================
+    
+function toggleStudioShowcase() {
+  const container = document.getElementById('iphoneShowcaseView');
+  const btn = document.getElementById('btnStudioMode');
+  if (!container) return;
+  container.classList.toggle('studio-mode');
+  const isStudio = container.classList.contains('studio-mode');
+  if (btn) {
+    btn.classList.toggle('active', isStudio);
+    btn.querySelector('span').textContent = isStudio ? 'SpaceX Dark' : 'Studio Light';
+  }
+}
+
+
+    // =========================================================
+    // DYNAMIC PARIS MOBILE NAVIGATION & VEHICLE ANIMATION
+    // =========================================================
+    let p3NavFrac = 0;
+    const p3RouteCoords = [
+      { x: 298, y: 160 },
+      { x: 295, y: 225 },
+      { x: 290, y: 310 },
+      { x: 286, y: 430 }
+    ];
+
+    function updateParisMobileDynamicNavigation(sim) {
+      if (!sim) return;
+      // 1. Advance route progress smoothly
+      p3NavFrac = (p3NavFrac + 0.005) % 1.0;
+      
+      const puck = document.getElementById('showcaseNavVehiclePuck');
+      if (puck) {
+        const totalSegs = p3RouteCoords.length - 1;
+        const segIdx = Math.min(Math.floor(p3NavFrac * totalSegs), totalSegs - 1);
+        const segFrac = (p3NavFrac * totalSegs) - segIdx;
+        const pt1 = p3RouteCoords[segIdx];
+        const pt2 = p3RouteCoords[segIdx + 1];
+
+        const curX = pt1.x + (pt2.x - pt1.x) * segFrac;
+        const curY = pt1.y + (pt2.y - pt1.y) * segFrac;
+        const angleRad = Math.atan2(pt2.y - pt1.y, pt2.x - pt1.x);
+        const angleDeg = (angleRad * 180 / Math.PI) - 90;
+
+        const core = document.getElementById('puckCore');
+        const chevron = document.getElementById('puckChevron');
+        const ring = document.getElementById('puckRadarRing');
+
+        if (core) {
+          core.setAttribute('cx', curX);
+          core.setAttribute('cy', curY);
+          core.setAttribute('fill', sim.isOutage ? '#EF4444' : '#10B981');
+        }
+        if (ring) {
+          ring.setAttribute('cx', curX);
+          ring.setAttribute('cy', curY);
+          const rSize = 10 + (time * 12) % 16;
+          ring.setAttribute('r', rSize);
+          ring.setAttribute('opacity', (1 - (rSize / 26)).toFixed(2));
+          ring.setAttribute('stroke', sim.isOutage ? '#EF4444' : '#00B4D8');
+        }
+        if (chevron) {
+          chevron.setAttribute('transform', `translate(${curX}, ${curY}) rotate(${angleDeg}) translate(${-298}, ${-160})`);
+        }
+      }
+
+      // 2. Update Live Navigation HUD readout
+      const hud = document.getElementById('phone3LiveHud');
+      const speedTag = document.getElementById('p3LiveSpeedTag');
+      const maneuver = document.getElementById('p3NextManeuver');
+      const street = document.getElementById('p3NextStreet');
+      const turnIcon = document.getElementById('p3TurnIcon');
+
+      if (speedTag) {
+        speedTag.textContent = sim.isOutage ? '⚠️ 49.2 km/h [DR]' : `${sim.speedKmh.toFixed(1)} km/h`;
+      }
+      if (hud) {
+        hud.classList.toggle('dr-outage', sim.isOutage);
+      }
+
+      if (maneuver && street && turnIcon) {
+        if (p3NavFrac < 0.35) {
+          turnIcon.textContent = '↱';
+          maneuver.textContent = `In ${(280 * (1 - p3NavFrac / 0.35)).toFixed(0)}m • Turn Right`;
+          street.textContent = "Pont d'Iéna across River Seine";
+        } else if (p3NavFrac < 0.70) {
+          turnIcon.textContent = '↑';
+          maneuver.textContent = `In ${(420 * (1 - (p3NavFrac - 0.35) / 0.35)).toFixed(0)}m • Straight`;
+          street.textContent = "Avenue Kléber Northbound";
+        } else {
+          turnIcon.textContent = '⬰';
+          maneuver.textContent = `In ${(180 * (1 - (p3NavFrac - 0.70) / 0.30)).toFixed(0)}m • Enter Roundabout`;
+          street.textContent = "Place Charles de Gaulle (Arc de Triomphe)";
+        }
+      }
+
+      // 3. Live ETA countdown in Phone 3 Bottom Card
+      const timeVal = document.getElementById('transitTimeVal');
+      const distVal = document.getElementById('transitDistVal');
+      if (timeVal && distVal) {
+        const remMins = Math.max(1, Math.round(17 * (1 - p3NavFrac * 0.95)));
+        const remKm = Math.max(0.1, (17 * (1 - p3NavFrac * 0.92))).toFixed(1);
+        timeVal.textContent = `${remMins} min`;
+        distVal.textContent = `${remKm} km • 5:20-5:40`;
+      }
+
+      // 4. Update status bar live clock
+      const now = new Date();
+      const clockStr = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.querySelectorAll('.status-left').forEach(el => {
+        el.textContent = clockStr;
+      });
+    }
+
+    // Interactive Landmark Selection on Phone 1 updates Phone 2
+    function selectShowcaseLandmark(id, el) {
+      document.querySelectorAll('.paris-landmark-marker').forEach(m => m.classList.remove('selected'));
+      if (el) el.classList.add('selected');
+
+      const data = landmarkDb[id] || landmarkDb['eiffel'];
+      const titleEl = document.getElementById('showcaseLandmarkTitle');
+      const subEl = document.getElementById('showcaseLandmarkSub');
+      const scoreEl = document.getElementById('showcaseRateScore');
+      const countEl = document.getElementById('showcaseRateCount');
+      const bodyEl = document.getElementById('showcaseDetailedBody');
+
+      if (titleEl) titleEl.textContent = data.title;
+      if (subEl) subEl.textContent = data.subtitle;
+      if (scoreEl) scoreEl.textContent = data.score;
+      if (countEl) countEl.textContent = data.rates;
+      if (bodyEl) bodyEl.textContent = data.desc;
+
+      // Pulse Phone 2 to draw user attention
+      const phone2Wrap = document.querySelectorAll('.iphone-device-wrap')[1];
+      if (phone2Wrap) {
+        phone2Wrap.style.transition = 'transform 0.25s ease';
+        phone2Wrap.style.transform = 'translateY(-6px)';
+        setTimeout(() => { phone2Wrap.style.transform = ''; }, 300);
+      }
+    }
+
+    // Dynamic Category Filter on Phone 1
+    function filterShowcaseCategory(btn, cat) {
+      const parent = btn.closest('.drawer-category-pills');
+      if (parent) {
+        parent.querySelectorAll('.cat-pill-btn').forEach(b => b.classList.remove('active'));
+      }
+      btn.classList.add('active');
+
+      const markers = document.querySelectorAll('#iphoneShowcaseView .paris-landmark-marker');
+      markers.forEach(m => {
+        const itemCats = m.getAttribute('data-cat') || 'attractions';
+        if (cat === 'all' || itemCats.includes(cat)) {
+          m.classList.remove('dimmed');
+        } else {
+          m.classList.add('dimmed');
+        }
+      });
+    }
+
+// PARIS MOBILE APP SUITE CONTROLLER
+    // =========================================================
+    let currentMobileView = 'showcase';
+    let currentSimScreen = 'explore';
+    let isSimDrActive = false;
+    let isOriginEiffel = true;
+
+    function switchMobileView(mode) {
+      currentMobileView = mode;
+      const btnShowcase = document.getElementById('btnViewShowcase');
+      const btnSim = document.getElementById('btnViewSimulator');
+      const btnFull = document.getElementById('btnViewFullscreen');
+      const showcaseView = document.getElementById('iphoneShowcaseView');
+      const simView = document.getElementById('singleDeviceSimulatorView');
+      const simChassis = document.getElementById('interactiveIphoneChassis');
+
+      [btnShowcase, btnSim, btnFull].forEach(b => b && b.classList.remove('active'));
+
+      if (mode === 'showcase') {
+        if (btnShowcase) btnShowcase.classList.add('active');
+        if (showcaseView) showcaseView.style.display = 'grid';
+        if (simView) simView.style.display = 'none';
+      } else if (mode === 'simulator') {
+        if (btnSim) btnSim.classList.add('active');
+        if (showcaseView) showcaseView.style.display = 'none';
+        if (simView) simView.style.display = 'flex';
+        if (simChassis) {
+          simChassis.style.width = '390px';
+          simChassis.style.height = '820px';
+        }
+      } else if (mode === 'fullscreen') {
+        if (btnFull) btnFull.classList.add('active');
+        if (showcaseView) showcaseView.style.display = 'none';
+        if (simView) simView.style.display = 'flex';
+        if (simChassis) {
+          simChassis.style.width = 'min(100%, 460px)';
+          simChassis.style.height = '840px';
+        }
+      }
+    }
+
+    function setSimulatorScreen(screen) {
+      currentSimScreen = screen;
+      const btnExplore = document.getElementById('btnSimTabExplore');
+      const btnDetails = document.getElementById('btnSimTabDetails');
+      const btnRoute = document.getElementById('btnSimTabRoute');
+      const shelfExplore = document.getElementById('simShelfExplore');
+      const shelfDetails = document.getElementById('simShelfDetails');
+      const shelfRoute = document.getElementById('simShelfRoute');
+      const topRouteCard = document.getElementById('simTopRouteCard');
+      const simRouteGroup = document.getElementById('simRouteGroup');
+      const simArcBox = document.getElementById('simArcBox');
+
+      [btnExplore, btnDetails, btnRoute].forEach(b => b && b.classList.remove('active'));
+
+      if (shelfExplore) shelfExplore.style.display = 'none';
+      if (shelfDetails) shelfDetails.style.display = 'none';
+      if (shelfRoute) shelfRoute.style.display = 'none';
+      if (topRouteCard) topRouteCard.style.display = 'none';
+      if (simRouteGroup) simRouteGroup.style.display = 'none';
+      if (simArcBox) {
+        simArcBox.className = 'landmark-photo-box';
+      }
+
+      if (screen === 'explore') {
+        if (btnExplore) btnExplore.classList.add('active');
+        if (shelfExplore) shelfExplore.style.display = 'flex';
+      } else if (screen === 'details') {
+        if (btnDetails) btnDetails.classList.add('active');
+        if (shelfDetails) shelfDetails.style.display = 'flex';
+      } else if (screen === 'route') {
+        if (btnRoute) btnRoute.classList.add('active');
+        if (shelfRoute) shelfRoute.style.display = 'flex';
+        if (topRouteCard) topRouteCard.style.display = 'flex';
+        if (simRouteGroup) simRouteGroup.style.display = 'block';
+        if (simArcBox) {
+          simArcBox.className = 'destination-highlight-box';
+        }
+        startVehicleAnimation();
+      }
+    }
+
+    function goToRouteScreen() {
+      switchMobileView('simulator');
+      setSimulatorScreen('route');
+    }
+
+    const landmarkDb = {
+      'eiffel': {
+        title: 'Eiffel Tower',
+        subtitle: 'Historical landmark',
+        score: '4,7',
+        rates: '5089 rates',
+        desc: "The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. Named after the engineer Gustave Eiffel, whose company designed and built the tower as the centerpiece of the 1889 World's Fair."
+      },
+      'arc': {
+        title: 'Arc de Triomphe',
+        subtitle: 'National monument',
+        score: '4,8',
+        rates: '4210 rates',
+        desc: "The Arc de Triomphe de l'Étoile is one of the most famous monuments in Paris, standing at the western end of the Champs-Élysées at the center of Place Charles de Gaulle."
+      },
+      'louvre': {
+        title: 'Louvre Museum',
+        subtitle: 'Art & History museum',
+        score: '4,9',
+        rates: '8490 rates',
+        desc: "The Louvre is the world's most-visited museum and a historic landmark in Paris. Home of the Mona Lisa, Venus de Milo, and Winged Victory of Samothrace."
+      },
+      'notre_dame': {
+        title: 'Notre-Dame Cathedral',
+        subtitle: 'Gothic cathedral',
+        score: '4,8',
+        rates: '6120 rates',
+        desc: "Notre-Dame de Paris is a medieval Catholic cathedral on the Île de la Cité. The cathedral was consecrated to the Virgin Mary and considered one of the finest French Gothic examples."
+      },
+      'tuileries': {
+        title: 'Tuileries Garden',
+        subtitle: 'Public park & Palace grounds',
+        score: '4,6',
+        rates: '2840 rates',
+        desc: "The Tuileries Garden is a public garden located between the Louvre and the Place de la Concorde, created by Catherine de' Medici in 1564."
+      },
+      'concorde': {
+        title: 'Place de la Concorde',
+        subtitle: 'Historic public square',
+        score: '4,6',
+        rates: '1980 rates',
+        desc: "Place de la Concorde is one of the major public squares in Paris, featuring the 3,300-year-old Luxor Obelisk."
+      },
+      'orsay': {
+        title: "Musée d'Orsay",
+        subtitle: 'Impressionist art museum',
+        score: '4,8',
+        rates: '3920 rates',
+        desc: "A museum in Paris on the Left Bank of the Seine, housed in the former Gare d'Orsay railway station."
+      },
+      'pont_neuf': {
+        title: 'Pont Neuf',
+        subtitle: 'Historic stone bridge',
+        score: '4,7',
+        rates: '1430 rates',
+        desc: "The oldest standing bridge across the river Seine in Paris, connecting both banks via the western tip of the Île de la Cité."
+      }
+    };
+
+    function openLandmarkDetails(id) {
+      const data = landmarkDb[id] || landmarkDb['eiffel'];
+      switchMobileView('simulator');
+      setSimulatorScreen('details');
+      const title = document.getElementById('simLandmarkTitle');
+      const subtitle = document.getElementById('simLandmarkSubtitle');
+      const score = document.getElementById('simRatingScore');
+      const rates = document.getElementById('simRatingCount');
+      const desc = document.getElementById('simLandmarkDesc');
+      if (title) title.textContent = data.title;
+      if (subtitle) subtitle.textContent = data.subtitle;
+      if (score) score.textContent = data.score;
+      if (rates) rates.textContent = data.rates;
+      if (desc) desc.textContent = data.desc;
+    }
+
+    function openSimLandmark(id) {
+      openLandmarkDetails(id);
+    }
+
+    function filterCategory(btn, cat) {
+      const container = btn.closest('.drawer-category-pills');
+      if (container) {
+        container.querySelectorAll('.cat-pill-btn').forEach(b => b.classList.remove('active'));
+      }
+      btn.classList.add('active');
+    }
+
+    function swapRouteEndpoints() {
+      isOriginEiffel = !isOriginEiffel;
+      const origin = isOriginEiffel ? 'Eiffel Tower' : 'Arc de Triomphe';
+      const dest = isOriginEiffel ? 'Arc de Triomphe' : 'Eiffel Tower';
+      
+      const originEls = document.querySelectorAll('.point-name');
+      if (originEls.length >= 2) {
+        originEls[0].textContent = origin;
+        originEls[1].textContent = dest;
+      }
+      const simOrig = document.getElementById('simOriginText');
+      const simDest = document.getElementById('simDestText');
+      if (simOrig) simOrig.textContent = origin;
+      if (simDest) simDest.textContent = dest;
+    }
+
+    function switchTransitModeTab(btn, mode, time, dist, fare, isFastest) {
+      const tabs = btn.closest('.transit-mode-tabs');
+      if (tabs) {
+        tabs.querySelectorAll('.mode-tab-pill').forEach(b => b.classList.remove('active'));
+      }
+      btn.classList.add('active');
+
+      const timeEl = document.getElementById('transitTimeVal');
+      const distEl = document.getElementById('transitDistVal');
+      const fareEl = document.getElementById('transitFareVal');
+      const tagEl = document.getElementById('transitRouteTag');
+      const itinEl = document.getElementById('transitItineraryBox');
+
+      if (timeEl) timeEl.textContent = time;
+      if (distEl) distEl.textContent = dist;
+      if (fareEl) fareEl.textContent = fare;
+      if (tagEl) {
+        tagEl.style.display = isFastest ? 'inline-block' : 'none';
+      }
+
+      if (itinEl) {
+        if (mode === 'transit') {
+          itinEl.innerHTML = '<span>🚶 1 min</span><span class="step-arrow-icon">▶</span><span class="bus-capsule">🚌 56</span><span class="bus-capsule">🚌 24</span><span class="step-arrow-icon">▶</span><span>🚶 16 min</span>';
+        } else if (mode === 'walking') {
+          itinEl.innerHTML = '<span>🚶 Direct Walk via Pont d\'Iéna &amp; Av. Kléber</span><span class="step-arrow-icon">▶</span><span>4.8 km • Burn ~290 kcal</span>';
+        } else if (mode === 'cycling') {
+          itinEl.innerHTML = '<span>🚲 Vélib\' Station 07005</span><span class="step-arrow-icon">▶</span><span>Seine Riverway Cycle Path</span><span class="step-arrow-icon">▶</span><span>Drop Station 08002</span>';
+        } else {
+          itinEl.innerHTML = '<span>🚕 G7 Taxi / UberX Pickup</span><span class="step-arrow-icon">▶</span><span>Direct via Avenue d\'Iéna</span><span class="step-arrow-icon">▶</span><span>Finish Charles de Gaulle</span>';
+        }
+      }
+    }
+
+    function toggleFavoriteRoute(btn) {
+      btn.classList.toggle('active');
+      if (btn.classList.contains('active')) {
+        btn.style.color = '#EF4444';
+        btn.style.background = '#FEE2E2';
+      } else {
+        btn.style.color = '';
+        btn.style.background = '';
+      }
+    }
+
+    function toggleDeadReckoningSim() {
+      isSimDrActive = !isSimDrActive;
+      const btn = document.getElementById('btnToggleDeadReckonSim');
+      const label = document.getElementById('btnToggleDrLabel');
+      const dot = document.getElementById('btnToggleDrDot');
+      const simDot = document.getElementById('simIdrDot');
+      const simText = document.getElementById('simIdrStateText');
+
+      if (isSimDrActive) {
+        if (btn) btn.classList.add('dr-active');
+        if (label) label.textContent = 'GPS Outage: PURE DR (Tunnel)';
+        if (dot) dot.classList.add('dr-active');
+        if (simDot) simDot.classList.add('dr-active');
+        if (simText) simText.textContent = '⚡ PURE DEAD RECKONING (GPS OUTAGE | 200Hz)';
+      } else {
+        if (btn) btn.classList.remove('dr-active');
+        if (label) label.textContent = 'GPS Outage: OFF (Nominal)';
+        if (dot) dot.classList.remove('dr-active');
+        if (simDot) simDot.classList.remove('dr-active');
+        if (simText) simText.textContent = 'GNSS+INS Nominal (±0.4m)';
+      }
+    }
+
+    let navAnimId = null;
+    let navProgress = 0;
+    function startVehicleAnimation() {
+      const vehicle = document.getElementById('simNavVehicle');
+      if (!vehicle) return;
+      if (navAnimId) cancelAnimationFrame(navAnimId);
+
+      const pathCoords = [
+        { x: 306, y: 170 },
+        { x: 302, y: 230 },
+        { x: 298, y: 320 },
+        { x: 295, y: 440 }
+      ];
+
+      function step() {
+        navProgress = (navProgress + 0.005) % 1;
+        // Interpolate position along 3 segments
+        const totalSegs = pathCoords.length - 1;
+        const segIdx = Math.min(Math.floor(navProgress * totalSegs), totalSegs - 1);
+        const segFrac = (navProgress * totalSegs) - segIdx;
+        const p1 = pathCoords[segIdx];
+        const p2 = pathCoords[segIdx + 1];
+        const cx = p1.x + (p2.x - p1.x) * segFrac;
+        const cy = p1.y + (p2.y - p1.y) * segFrac;
+
+        vehicle.setAttribute('cx', cx);
+        vehicle.setAttribute('cy', cy);
+
+        navAnimId = requestAnimationFrame(step);
+      }
+      step();
+    }
+
     const pageTitles = {
+      'mobileapp': 'Paris Multimodal Navigation & Dead Reckoning App',
       'cockpit': 'Live 3D Fusion Cockpit',
       'neural': 'Neural & ML Architecture',
       'eskf': 'ES-EKF Mathematics & State',

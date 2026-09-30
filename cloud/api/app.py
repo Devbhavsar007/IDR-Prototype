@@ -10,13 +10,17 @@ Fulfills India's Digital Personal Data Protection Act 2023:
 
 from __future__ import annotations
 
+from pathlib import Path
 import time
 from typing import Any, Dict, List, Optional
 from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from cloud.db.models import DpdpConsentAudit, DriveSession, ModelRelease, get_db, init_db
+
+_DASHBOARD_PATH = Path(__file__).resolve().parents[2] / "tools" / "web_dashboard" / "index.html"
 
 # Initialize database tables on startup
 init_db()
@@ -66,6 +70,14 @@ class ModelReleaseResponse(BaseModel):
 
 
 # ── Endpoints ──
+ 
+@app.get("/", include_in_schema=False)
+def serve_dashboard():
+    """Serve the interactive DrishtiAI Dead Reckoning Web Dashboard."""
+    if _DASHBOARD_PATH.is_file():
+        return FileResponse(_DASHBOARD_PATH, media_type="text/html")
+    return {"service": "idr-cloud-api", "status": "active", "docs": "/docs"}
+
 
 @app.get("/health", status_code=status.HTTP_200_OK)
 def health_check():

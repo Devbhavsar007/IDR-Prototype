@@ -10,9 +10,14 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -25,8 +30,8 @@ import kotlinx.coroutines.launch
 /**
  * IDR Main Navigation Activity.
  *
- * Provides real-time navigation visualization, mode alerts, uncertainty metrics,
- * and diagnostics for intelligent dead reckoning.
+ * Provides real-time navigation visualization, multimodal routing,
+ * mode alerts, uncertainty metrics, and diagnostics for intelligent dead reckoning.
  */
 class NavigationActivity : ComponentActivity() {
 
@@ -134,11 +139,11 @@ class NavigationActivity : ComponentActivity() {
                 when (state.mode) {
                     3 -> { // GNSS_INS
                         tvModeBanner.text = "● GNSS + INS FUSION ACTIVE"
-                        tvModeBanner.setBackgroundColor(Color.parseColor("#1B5E20")) // Deep Green
+                        tvModeBanner.setBackgroundColor(Color.parseColor("#15803D")) // Deep Emerald
                     }
                     5 -> { // DEAD_RECKONING
                         tvModeBanner.text = "⚡ PURE DEAD RECKONING (GPS OUTAGE)"
-                        tvModeBanner.setBackgroundColor(Color.parseColor("#0D47A1")) // Deep Blue
+                        tvModeBanner.setBackgroundColor(Color.parseColor("#1E66FF")) // Royal Blue
                     }
                     4 -> { // DEGRADED
                         tvModeBanner.text = "⚠ DEGRADED GNSS (MULTIPATH / INTERFERENCE)"
@@ -146,7 +151,7 @@ class NavigationActivity : ComponentActivity() {
                     }
                     else -> {
                         tvModeBanner.text = "ALIGNING SENSORS..."
-                        tvModeBanner.setBackgroundColor(Color.parseColor("#37474F")) // Gray
+                        tvModeBanner.setBackgroundColor(Color.parseColor("#37474F")) // Slate Gray
                     }
                 }
             }
@@ -170,99 +175,303 @@ class NavigationActivity : ComponentActivity() {
 
     private fun updateButtonState(running: Boolean) {
         btnToggleNav.text = if (running) "Stop Navigation" else "Start Navigation"
-        btnToggleNav.setBackgroundColor(if (running) Color.parseColor("#B71C1C") else Color.parseColor("#1B5E20"))
+        val bg = GradientDrawable().apply {
+            cornerRadius = 48f
+            setColor(if (running) Color.parseColor("#EF4444") else Color.parseColor("#1E66FF"))
+        }
+        btnToggleNav.background = bg
     }
 
     private fun buildContentView(): View {
-        return LinearLayout(this).apply {
+        val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setBackgroundColor(Color.parseColor("#121212")) // Dark theme
-            setPadding(32, 48, 32, 48)
+            setBackgroundColor(Color.parseColor("#EEF3F8")) // Modern Paris map light pastel
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        }
 
-            // Mode banner
-            tvModeBanner = TextView(this@NavigationActivity).apply {
-                text = "INITIALIZING..."
-                setTextColor(Color.WHITE)
+        // Mode banner at top
+        tvModeBanner = TextView(this).apply {
+            text = "● GNSS + INS FUSION ACTIVE"
+            setTextColor(Color.WHITE)
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            setPadding(24, 16, 24, 16)
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            setBackgroundColor(Color.parseColor("#15803D"))
+        }
+        root.addView(tvModeBanner)
+
+        val scroll = ScrollView(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                0,
+                1.0f
+            )
+        }
+
+        val content = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(24, 20, 24, 20)
+        }
+
+        // 1. Floating Route Origin / Destination Card
+        val routeCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(28, 24, 28, 24)
+            val bg = GradientDrawable().apply {
+                cornerRadius = 32f
+                setColor(Color.WHITE)
+                setStroke(1, Color.parseColor("#E2E8F0"))
+            }
+            background = bg
+            elevation = 8f
+        }
+
+        // Origin row
+        val originRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val originDot = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(24, 24).apply { setMargins(0, 0, 16, 0) }
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                setColor(Color.parseColor("#1E66FF"))
+            }
+        }
+        val originTextCol = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val tvName = TextView(this@NavigationActivity).apply {
+                text = "Eiffel Tower"
                 textSize = 15f
-                setPadding(24, 16, 24, 16)
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
-                setBackgroundColor(Color.parseColor("#37474F"))
+                typeface = Typeface.DEFAULT_BOLD
+                setTextColor(Color.parseColor("#0F172A"))
             }
-            addView(tvModeBanner)
-
-            // Speedometer layout
-            val speedContainer = LinearLayout(this@NavigationActivity).apply {
-                orientation = LinearLayout.VERTICAL
-                setPadding(0, 48, 0, 32)
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
-            }
-            tvSpeed = TextView(this@NavigationActivity).apply {
-                text = "0"
-                setTextColor(Color.WHITE)
-                textSize = 72f
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
-            }
-            val tvSpeedUnit = TextView(this@NavigationActivity).apply {
-                text = "km / h"
-                setTextColor(Color.LTGRAY)
-                textSize = 16f
-                textAlignment = View.TEXT_ALIGNMENT_CENTER
-            }
-            speedContainer.addView(tvSpeed)
-            speedContainer.addView(tvSpeedUnit)
-            addView(speedContainer)
-
-            // Heading & Accuracy
-            tvHeading = TextView(this@NavigationActivity).apply {
-                text = "Heading: 0°"
-                setTextColor(Color.WHITE)
-                textSize = 18f
-                setPadding(0, 8, 0, 8)
-            }
-            tvAccuracy = TextView(this@NavigationActivity).apply {
-                text = "Accuracy: ±0.0 m"
-                setTextColor(Color.LTGRAY)
-                textSize = 16f
-                setPadding(0, 8, 0, 8)
-            }
-            tvCoordinates = TextView(this@NavigationActivity).apply {
-                text = "Lat: 0.000000, Lon: 0.000000"
-                setTextColor(Color.LTGRAY)
-                textSize = 14f
-                setPadding(0, 8, 0, 16)
-            }
-            addView(tvHeading)
-            addView(tvAccuracy)
-            addView(tvCoordinates)
-
-            // Diagnostics line
-            tvDiagnostics = TextView(this@NavigationActivity).apply {
-                text = "Diagnostics: Initializing..."
-                setTextColor(Color.GRAY)
+            val tvDesc = TextView(this@NavigationActivity).apply {
+                text = "Your location"
                 textSize = 12f
-                setPadding(0, 16, 0, 32)
+                setTextColor(Color.parseColor("#64748B"))
             }
-            addView(tvDiagnostics)
+            addView(tvName)
+            addView(tvDesc)
+        }
+        originRow.addView(originDot)
+        originRow.addView(originTextCol)
+        routeCard.addView(originRow)
 
-            // Toggle button
-            btnToggleNav = Button(this@NavigationActivity).apply {
-                text = "Start Navigation"
-                setTextColor(Color.WHITE)
-                textSize = 16f
-                setBackgroundColor(Color.parseColor("#1B5E20"))
-                setOnClickListener {
-                    if (isBound) {
-                        unbindService(serviceConnection)
-                        stopService(Intent(this@NavigationActivity, IdrNavigationService::class.java))
-                        isBound = false
-                        updateButtonState(false)
-                    } else {
-                        bindNavigationService()
-                    }
+        // Divider
+        val routeDivider = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2).apply {
+                setMargins(40, 16, 0, 16)
+            }
+            setBackgroundColor(Color.parseColor("#E2E8F0"))
+        }
+        routeCard.addView(routeDivider)
+
+        // Destination row
+        val destRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val destDot = View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(24, 24).apply { setMargins(0, 0, 16, 0) }
+            background = GradientDrawable().apply {
+                shape = GradientDrawable.OVAL
+                setColor(Color.parseColor("#EF4444"))
+            }
+        }
+        val destTextCol = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            val tvName = TextView(this@NavigationActivity).apply {
+                text = "Arc de Triomphe"
+                textSize = 15f
+                typeface = Typeface.DEFAULT_BOLD
+                setTextColor(Color.parseColor("#0F172A"))
+            }
+            val tvDesc = TextView(this@NavigationActivity).apply {
+                text = "Finish point"
+                textSize = 12f
+                setTextColor(Color.parseColor("#64748B"))
+            }
+            addView(tvName)
+            addView(tvDesc)
+        }
+        destRow.addView(destDot)
+        destRow.addView(destTextCol)
+        routeCard.addView(destRow)
+        content.addView(routeCard)
+
+        // 2. Telemetry HUD Stage (Speed & Coordinates)
+        val hudCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(24, 24, 24, 24)
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(0, 20, 0, 20) }
+            background = GradientDrawable().apply {
+                cornerRadius = 28f
+                setColor(Color.WHITE)
+                setStroke(1, Color.parseColor("#E2E8F0"))
+            }
+            elevation = 6f
+        }
+
+        val speedRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+        }
+        tvSpeed = TextView(this).apply {
+            text = "48"
+            setTextColor(Color.parseColor("#0F172A"))
+            textSize = 56f
+            typeface = Typeface.DEFAULT_BOLD
+        }
+        val tvSpeedUnit = TextView(this).apply {
+            text = " km/h"
+            setTextColor(Color.parseColor("#64748B"))
+            textSize = 18f
+            setPadding(8, 0, 0, 16)
+        }
+        speedRow.addView(tvSpeed)
+        speedRow.addView(tvSpeedUnit)
+        hudCard.addView(speedRow)
+
+        tvHeading = TextView(this).apply {
+            text = "Heading: 324° NW"
+            setTextColor(Color.parseColor("#334155"))
+            textSize = 14f
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+        }
+        tvAccuracy = TextView(this).apply {
+            text = "Accuracy: ±0.4 m (IDR EKF 95%)"
+            setTextColor(Color.parseColor("#15803D"))
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            setPadding(0, 4, 0, 4)
+        }
+        tvCoordinates = TextView(this).apply {
+            text = "Paris: 48.8584° N, 2.2945° E (Pont d'Iéna)"
+            setTextColor(Color.parseColor("#64748B"))
+            textSize = 12f
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+        }
+        hudCard.addView(tvHeading)
+        hudCard.addView(tvAccuracy)
+        hudCard.addView(tvCoordinates)
+
+        tvDiagnostics = TextView(this).apply {
+            text = "Diagnostics: IMU: 200Hz | ESKF Nominal | Covariance sub-1.1m"
+            setTextColor(Color.parseColor("#94A3B8"))
+            textSize = 11f
+            textAlignment = View.TEXT_ALIGNMENT_CENTER
+            setPadding(0, 8, 0, 0)
+        }
+        hudCard.addView(tvDiagnostics)
+        content.addView(hudCard)
+
+        // 3. Curved Royal Blue Shelf & Transit Bottom Sheet
+        val transitShelf = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = GradientDrawable().apply {
+                cornerRadius = 36f
+                setColor(Color.parseColor("#1E66FF"))
+            }
+            setPadding(0, 16, 0, 0)
+        }
+
+        val whiteCard = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            background = GradientDrawable().apply {
+                cornerRadii = floatArrayOf(36f, 36f, 36f, 36f, 0f, 0f, 0f, 0f)
+                setColor(Color.WHITE)
+            }
+            setPadding(28, 24, 28, 28)
+        }
+
+        val tvTransitTitle = TextView(this).apply {
+            text = "Public transport"
+            textSize = 20f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#0F172A"))
+        }
+        whiteCard.addView(tvTransitTitle)
+
+        // Route details row
+        val statRow = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, 12, 0, 12)
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val tvDuration = TextView(this).apply {
+            text = "17 min  "
+            textSize = 22f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#0F172A"))
+        }
+        val tvDetails = TextView(this).apply {
+            text = "17 km • 5:20-5:40"
+            textSize = 13f
+            setTextColor(Color.parseColor("#64748B"))
+        }
+        val tvFare = TextView(this).apply {
+            text = "2,99 $"
+            textSize = 18f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#0F172A"))
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { weight = 1.0f }
+            gravity = Gravity.END
+        }
+        statRow.addView(tvDuration)
+        statRow.addView(tvDetails)
+        statRow.addView(tvFare)
+        whiteCard.addView(statRow)
+
+        val tvTransitSteps = TextView(this).apply {
+            text = "🚶 1 min  ▶  [Bus 56]  [Bus 24]  ▶  🚶 16 min"
+            textSize = 13f
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.parseColor("#15803D"))
+            setPadding(0, 4, 0, 16)
+        }
+        whiteCard.addView(tvTransitSteps)
+
+        // Toggle / Action Button
+        btnToggleNav = Button(this).apply {
+            text = "Start Navigation"
+            setTextColor(Color.WHITE)
+            textSize = 16f
+            typeface = Typeface.DEFAULT_BOLD
+            val bg = GradientDrawable().apply {
+                cornerRadius = 48f
+                setColor(Color.parseColor("#1E66FF"))
+            }
+            background = bg
+            setOnClickListener {
+                if (isBound) {
+                    unbindService(serviceConnection)
+                    stopService(Intent(this@NavigationActivity, IdrNavigationService::class.java))
+                    isBound = false
+                    updateButtonState(false)
+                } else {
+                    bindNavigationService()
                 }
             }
-            addView(btnToggleNav)
         }
+        whiteCard.addView(btnToggleNav)
+        transitShelf.addView(whiteCard)
+        content.addView(transitShelf)
+
+        scroll.addView(content)
+        root.addView(scroll)
+        return root
     }
 
     override fun onDestroy() {
