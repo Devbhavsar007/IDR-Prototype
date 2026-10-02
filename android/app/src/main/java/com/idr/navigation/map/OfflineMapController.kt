@@ -1,9 +1,7 @@
 package com.idr.navigation.map
 
-import com.idr.navigation.NavigationState
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 /**
  * OfflineMapController
@@ -32,6 +30,20 @@ class OfflineMapController {
         val isDeadReckoning: Boolean
     )
 
+    /**
+     * Input data class — maps directly to IdrNative.NavigationState fields
+     * so this controller can be used independently of the full NavigationState import.
+     */
+    data class PositionUpdate(
+        val latitude: Double,
+        val longitude: Double,
+        val altitude: Double,
+        val headingDeg: Double,
+        val speedKmh: Double,
+        val horizontalAccuracyMeters: Double,
+        val isDeadReckoningActive: Boolean
+    )
+
     // Layer-specific styling constants for Indian highway corridors
     companion object {
         const val COLOR_FLYOVER_ELEVATED = "#10B981" // Emerald Green (Layer 1+)
@@ -46,18 +58,18 @@ class OfflineMapController {
     private var currentVisualState: MapVisualState? = null
 
     /**
-     * Compute visual state from native fused navigation state.
+     * Compute visual state from a position update.
      *
-     * @param navState Raw state from C++ IdrEngine
+     * @param update Position data from IdrNative.NavigationState
      * @param activeLayer Road layer from HMM map-matcher (-1: underpass, 0: surface, 1: flyover)
      */
-    fun processNavigationUpdate(navState: NavigationState, activeLayer: Int = 0): MapVisualState {
+    fun processNavigationUpdate(update: PositionUpdate, activeLayer: Int = 0): MapVisualState {
         // Calculate 95% confidence uncertainty ellipse
-        val sigmaH = navState.horizontalAccuracyMeters.coerceAtLeast(0.5)
+        val sigmaH = update.horizontalAccuracyMeters.coerceAtLeast(0.5)
         val ellipse95 = ErrorEllipse(
             semiMajorAxisMeters = sigmaH * CHI2_95_SCALE,
             semiMinorAxisMeters = (sigmaH * 0.8) * CHI2_95_SCALE,
-            orientationDegrees = navState.headingDeg
+            orientationDegrees = update.headingDeg
         )
 
         val layerColor = when {
@@ -67,15 +79,15 @@ class OfflineMapController {
         }
 
         val state = MapVisualState(
-            latitude = navState.latitude,
-            longitude = navState.longitude,
-            altitudeMeters = navState.altitude,
-            headingDegrees = navState.headingDeg,
-            speedKmh = navState.speedKmh,
+            latitude = update.latitude,
+            longitude = update.longitude,
+            altitudeMeters = update.altitude,
+            headingDegrees = update.headingDeg,
+            speedKmh = update.speedKmh,
             layer = activeLayer,
             layerColorHex = layerColor,
             errorEllipse = ellipse95,
-            isDeadReckoning = navState.isDeadReckoningActive
+            isDeadReckoning = update.isDeadReckoningActive
         )
 
         currentVisualState = state
