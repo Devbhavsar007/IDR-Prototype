@@ -4982,6 +4982,605 @@ body.view-mode-diagnostics #idrAdvancedExperience {
   border-bottom: none;
 }
 
+/* ==========================================================================
+   IDR STANDARD EXPERIENCE — MAP MOUNT & CLEAN CANVAS EMBEDDING
+   ========================================================================== */
+
+#stdMapMount {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: inherit;
+  background: #0b1120;
+}
+
+#stdMapMount #mainMapCard {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #0b1120 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+}
+
+/* Hide advanced cockpit controls when inside clean standard navigation */
+#stdMapMount #mainMapCard > *:not(#maplibreContainer) {
+  display: none !important;
+}
+
+#stdMapMount #maplibreContainer {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: inherit !important;
+}
+
+#stdMapMount #maplibreContainer canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Base Page Container Spacing */
+.std-page-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 130px 20px;
+  position: relative;
+  min-height: calc(100vh - 64px);
+}
+
+.std-page-container.wide {
+  max-width: 100%;
+  width: 100%;
+  padding: 8px 14px 90px 14px;
+  box-sizing: border-box;
+}
+
+/* Profile Bar standard flex */
+.std-profile-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.std-profile-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.std-profile-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 800;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.std-profile-name {
+  font-size: 1.02rem;
+  font-weight: 800;
+  color: #111613;
+}
+
+.std-profile-loc {
+  font-size: 0.76rem;
+  color: #5d6761;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+/* Toast Floating Pill */
+.std-toast {
+  position: fixed;
+  top: 74px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(17, 22, 19, 0.94);
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: calc(100% - 32px);
+  white-space: nowrap;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.std-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Live Navigation Wrapper & Overlays (Desktop Base) */
+.std-livenav-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 160px);
+  min-height: 520px;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #0b1120;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+  border: 1px solid #1e293b;
+}
+
+.std-maneuver-card {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 20;
+  background: #15803d;
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 12px 30px rgba(21, 128, 61, 0.35);
+  max-width: 380px;
+}
+
+.std-idr-chip {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #e1e7e3;
+  padding: 8px 16px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.std-fabs-column {
+  position: absolute;
+  top: 76px;
+  right: 18px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.std-speed-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 20;
+  background: #ffffff;
+  border-radius: 999px;
+  padding: 6px 14px 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e1e7e3;
+}
+
+.std-nav-bottom-sheet {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  max-width: calc(100% - 32px);
+  z-index: 25;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 16px 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+  border: 1px solid #e1e7e3;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* ── Mobile Phones (≤ 480px) ── */
+@media (max-width: 480px) {
+  .std-header {
+    height: 56px;
+    padding: 0 12px;
+  }
+  .std-header-left { gap: 8px; }
+  .std-logo-badge { width: 32px; height: 32px; font-size: 0.82rem; border-radius: 10px; }
+  .std-brand-name { font-size: 0.92rem; }
+  .std-brand-sub { display: none; }
+  .std-sector-pill { display: none !important; }
+  .std-btn-engineering span { display: none; }
+  .std-btn-engineering { padding: 8px; border-radius: 50%; width: 36px; height: 36px; min-width: 36px; }
+  .std-btn-circle { width: 36px; height: 36px; min-width: 36px; }
+
+  .std-page-container { padding: 12px 12px 125px 12px; }
+  .std-page-container.wide { padding: 6px 6px 85px 6px; }
+
+  .std-profile-bar { margin-bottom: 12px; }
+  .std-profile-avatar { width: 36px; height: 36px; font-size: 0.82rem; }
+  .std-profile-name { font-size: 0.92rem; }
+  .std-profile-loc { font-size: 0.7rem; max-width: 190px; }
+
+  .std-search-bar { padding: 4px 6px 4px 12px; }
+  .std-search-input { font-size: 0.84rem; }
+  .std-scan-btn { width: 34px; height: 34px; }
+
+  .std-hero-card { padding: 16px 14px; border-radius: 20px; margin-bottom: 16px; }
+  .std-hero-tracking-tag { font-size: 0.7rem; }
+  .std-hero-tracking-num { font-size: 0.95rem; }
+  .std-hero-pill-badge { font-size: 0.66rem; padding: 3px 8px; }
+  .std-hero-info-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .std-hero-stat-label { font-size: 0.66rem; }
+  .std-hero-stat-val { font-size: 0.82rem; }
+  .std-hero-action-row { flex-direction: column; gap: 10px; align-items: stretch; }
+  .std-btn-hero-primary { justify-content: center; padding: 12px 16px; font-size: 0.84rem; }
+
+  .std-section-title { font-size: 0.95rem; }
+  .std-section-link { font-size: 0.72rem; }
+
+  .std-services-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 18px; }
+  .std-service-card { padding: 12px; border-radius: 16px; gap: 6px; }
+  .std-service-icon { width: 36px; height: 36px; border-radius: 10px; }
+  .std-service-title { font-size: 0.82rem; }
+  .std-service-desc { font-size: 0.68rem; }
+
+  .std-trip-card { padding: 12px; border-radius: 16px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .std-trip-left { gap: 10px; }
+  .std-trip-icon-wrap { width: 34px; height: 34px; min-width: 34px; border-radius: 10px; }
+  .std-trip-title { font-size: 0.84rem; }
+  .std-trip-sub { font-size: 0.7rem; }
+  .std-trip-badge { font-size: 0.66rem; padding: 3px 8px; align-self: flex-start; }
+
+  .std-readiness-strip { flex-direction: column; align-items: flex-start; padding: 12px 14px; border-radius: 14px; gap: 8px; }
+  .std-readiness-item { font-size: 0.72rem; }
+
+  /* Live Nav: Non-overlapping Mobile Layout */
+  .std-livenav-wrapper {
+    height: calc(100vh - 135px);
+    min-height: 480px;
+    border-radius: 22px;
+  }
+
+  .std-maneuver-card {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-width: none;
+    padding: 10px 12px;
+    border-radius: 16px;
+    gap: 10px;
+  }
+  .std-maneuver-icon-wrap { width: 34px; height: 34px; border-radius: 10px; }
+  .std-maneuver-dist { font-size: 1.05rem; }
+  .std-maneuver-street { font-size: 0.72rem; }
+
+  .std-idr-chip {
+    top: 76px;
+    left: 10px;
+    right: auto;
+    max-width: calc(100% - 66px);
+    padding: 5px 12px;
+    gap: 6px;
+  }
+  .std-idr-chip-text { font-size: 0.7rem; }
+  .std-idr-chip-sub { font-size: 0.6rem; }
+
+  .std-fabs-column {
+    top: 130px;
+    right: 10px;
+    gap: 6px;
+  }
+  .std-fab { width: 34px; height: 34px; }
+
+  .std-speed-badge {
+    bottom: 250px;
+    left: 10px;
+    padding: 4px 10px 4px 6px;
+  }
+  .std-speed-limit-circle { width: 26px; height: 26px; font-size: 0.75rem; border-width: 2px; }
+  .std-speed-val { font-size: 1rem; }
+
+  .std-nav-bottom-sheet {
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-width: none;
+    transform: none;
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+  .std-reliability-card { padding: 6px 10px; border-radius: 10px; flex-direction: row; justify-content: space-between; align-items: center; }
+  .std-reliability-label { font-size: 0.6rem; }
+  .std-reliability-badge { font-size: 0.65rem; padding: 2px 6px; }
+  .std-uncertainty-val { font-size: 0.75rem; }
+  .std-sheet-slider-row { font-size: 0.72rem; margin-top: 6px; }
+  .std-sheet-actions-row { gap: 6px; margin-top: 8px; }
+  .std-btn-sheet-primary { font-size: 0.78rem; padding: 9px 12px; }
+
+  /* Bottom Dock: Mobile */
+  .std-bottom-dock {
+    bottom: 10px;
+    padding: 5px 8px;
+    gap: 2px;
+    border-radius: 36px;
+    max-width: calc(100% - 20px);
+  }
+  .std-dock-item {
+    padding: 8px 12px;
+    font-size: 0.7rem;
+    gap: 4px;
+    min-height: 38px;
+  }
+  .std-dock-item svg { width: 18px; height: 18px; }
+  .std-dock-item span:not(.std-dock-badge) { display: none; }
+  .std-dock-item.active span:not(.std-dock-badge) { display: inline; }
+
+  /* Settings: Mobile */
+  .std-settings-group { padding: 14px; border-radius: 16px; margin-bottom: 14px; }
+  .std-settings-title { font-size: 0.92rem; }
+  .std-check-row { padding: 8px 0; font-size: 0.8rem; }
+
+  /* Toast: Mobile */
+  .std-toast {
+    top: 66px;
+    padding: 9px 14px;
+    font-size: 0.76rem;
+    max-width: calc(100% - 24px);
+    border-radius: 16px;
+    white-space: normal;
+  }
+
+  /* Modals: Mobile */
+  .std-modal-card { padding: 18px 14px; border-radius: 20px; max-height: 85vh; }
+}
+
+/* ── Small Tablets / Large Phones (481px – 768px) ── */
+@media (min-width: 481px) and (max-width: 768px) {
+  .std-header { padding: 0 16px; }
+  .std-sector-pill { display: none !important; }
+  .std-btn-engineering span { display: none; }
+  .std-btn-engineering { padding: 8px; border-radius: 50%; width: 38px; height: 38px; }
+
+  .std-page-container { padding: 16px 16px 125px 16px; }
+  .std-page-container.wide { padding: 8px 8px 90px 8px; }
+
+  .std-services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .std-hero-info-grid { grid-template-columns: 1fr 1fr; }
+
+  .std-livenav-wrapper {
+    height: calc(100vh - 145px);
+    border-radius: 24px;
+  }
+  .std-maneuver-card {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+  }
+  .std-idr-chip {
+    top: 80px;
+    left: 12px;
+    right: auto;
+    max-width: calc(100% - 70px);
+  }
+  .std-fabs-column {
+    top: 136px;
+    right: 12px;
+  }
+  .std-speed-badge {
+    bottom: 250px;
+    left: 12px;
+  }
+  .std-nav-bottom-sheet {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-width: none;
+    transform: none;
+  }
+
+  .std-bottom-dock { gap: 4px; padding: 6px 10px; }
+  .std-dock-item { padding: 8px 14px; font-size: 0.74rem; }
+}
+
+/* ── Tablets (769px – 1024px) ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .std-page-container { max-width: 780px; padding: 20px 18px 125px 18px; }
+  .std-services-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .std-hero-info-grid { grid-template-columns: 1fr 1fr 1.2fr; }
+
+  .std-maneuver-card { max-width: 340px; }
+  .std-nav-bottom-sheet { width: 440px; }
+}
+
+/* ── Desktop (> 1024px) ── */
+@media (min-width: 1025px) {
+  .std-page-container { max-width: 960px; }
+  .std-dock-item { padding: 10px 20px; }
+}
+
+/* ==========================================================================
+   VISUAL POLISH & MICRO-INTERACTIONS
+   ========================================================================== */
+
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Improve card hover depth hierarchy */
+.std-hero-card {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.std-hero-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(34, 197, 94, 0.18);
+}
+
+.std-service-card:hover .std-service-icon {
+  background: #dcfce7;
+  color: #15803d;
+  transition: all 0.2s ease;
+}
+
+.std-trip-card:active {
+  transform: scale(0.985);
+  transition: transform 0.1s ease;
+}
+
+.std-dock-item.active {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.std-readiness-item svg {
+  color: #22c55e;
+  transition: transform 0.2s ease;
+}
+.std-readiness-item:hover svg {
+  transform: scale(1.15);
+}
+
+/* Hero card progress shimmer */
+.std-hero-progress-fill {
+  position: relative;
+  overflow: hidden;
+}
+.std-hero-progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: stdProgressShimmer 2.5s ease-in-out infinite;
+}
+@keyframes stdProgressShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* IDR chip pulse animation during GNSS outage */
+.std-idr-dot.outage {
+  background: #ef4444 !important;
+  box-shadow: 0 0 12px #ef4444 !important;
+  animation: stdOutagePulse 1s infinite alternate;
+}
+@keyframes stdOutagePulse {
+  0% { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.15); }
+}
+
+.std-maneuver-card {
+  animation: stdManeuverSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes stdManeuverSlideIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.std-view.active {
+  animation: stdFadeIn 0.25s ease-out;
+}
+@keyframes stdFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.std-header {
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+}
+
+.std-slide-action-box:hover .std-slide-thumb {
+  transform: translateX(8px);
+}
+
+#idrStandardExperience {
+  scroll-behavior: smooth;
+}
+
+.std-trip-badge {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.std-hero-stat-val {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.std-search-wrapper {
+  overflow: hidden;
+}
+
+body.view-mode-standard .std-bottom-dock {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(17, 22, 19, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+#btnReturnToStandard {
+  z-index: 200;
+  position: relative;
+}
+
+.std-modal-card::-webkit-scrollbar { width: 4px; }
+.std-modal-card::-webkit-scrollbar-thumb {
+  background: #d1d5d3;
+  border-radius: 4px;
+}
+
+@media (max-height: 600px) {
+  .std-livenav-wrapper { min-height: 360px; height: calc(100vh - 120px); }
+  .std-nav-bottom-sheet { padding: 8px 12px; border-radius: 16px; }
+  .std-reliability-card { display: none; }
+  .std-maneuver-card { top: 6px; left: 6px; right: 6px; padding: 6px 10px; }
+  .std-idr-chip { top: 60px; left: 6px; padding: 4px 8px; }
+}
+
 </style>
 </head>
 <body class="view-mode-standard">
@@ -10629,7 +11228,7 @@ function toggleStudioShowcase() {
     let currentStdView = 'home';
     let stdOutageActive = false;
     let stdOutageTimer = 0;
-    let stdLastOutageState = false;
+    let stdLastOutageState = null;
 
     function stdSwitchView(viewId) {
       currentStdView = viewId;
@@ -10660,7 +11259,15 @@ function toggleStudioShowcase() {
       const mount = document.getElementById(containerId);
       if (mapCard && mount && mapCard.parentElement !== mount) {
         mount.appendChild(mapCard);
-        setTimeout(resizeCanvases, 60);
+        setTimeout(() => {
+          if (typeof resizeCanvases === 'function') resizeCanvases();
+          if (window.map && typeof window.map.resize === 'function') window.map.resize();
+        }, 80);
+      } else if (mapCard && mount) {
+        setTimeout(() => {
+          if (typeof resizeCanvases === 'function') resizeCanvases();
+          if (window.map && typeof window.map.resize === 'function') window.map.resize();
+        }, 80);
       }
     }
 
@@ -10773,7 +11380,7 @@ function toggleStudioShowcase() {
         if (stdToastTimer) clearTimeout(stdToastTimer);
         stdToastTimer = setTimeout(() => {
           toast.classList.remove('show');
-        }, 3800);
+        }, 3400);
       }
     }
 
@@ -10845,7 +11452,9 @@ function toggleStudioShowcase() {
         }
         if (uncert) uncert.textContent = `±${sim.idrDrift.toFixed(1)} m (DR Drift)`;
 
-        if (!stdLastOutageState) {
+        if (stdLastOutageState === null) {
+          stdLastOutageState = true;
+        } else if (!stdLastOutageState) {
           stdShowToast(`⚠️ GNSS Outage Detected: IDR is maintaining position via 200Hz INS & TCN-GRU model.`, '⚠️');
           stdLastOutageState = true;
         }
@@ -10861,7 +11470,9 @@ function toggleStudioShowcase() {
         }
         if (uncert) uncert.textContent = `±0.4 m (CEP95 Dual-Band)`;
 
-        if (stdLastOutageState) {
+        if (stdLastOutageState === null) {
+          stdLastOutageState = false;
+        } else if (stdLastOutageState) {
           stdShowToast(`🟢 GNSS Restored: Dual-Band NavIC L5 acquired. Position synchronized.`, '🟢');
           stdLastOutageState = false;
         }
