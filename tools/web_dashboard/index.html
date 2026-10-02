@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DrishtiAI — Autonomous Dead Reckoning &amp; Spatial Intelligence Platform</title>
+  <title>IDR — Intelligent Dead Reckoning with GNSS Fusion</title>
   
   <!-- Fonts: Inter, Outfit & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3913,7 +3915,1074 @@
       border-radius: 0 !important;
     }
 
-  </style>
+  
+/* ==========================================================================
+   IDR STANDARD EXPERIENCE (REFERENCE-INSPIRED LIGHT NAVIGATION ARCHITECTURE)
+   ========================================================================== */
+
+body.view-mode-standard {
+  background: #f4f6f4 !important;
+  color: #111613 !important;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif !important;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body.view-mode-standard #idrStandardExperience {
+  display: block;
+}
+
+body.view-mode-standard #idrAdvancedExperience {
+  display: none !important;
+}
+
+body.view-mode-diagnostics #idrStandardExperience {
+  display: none !important;
+}
+
+body.view-mode-diagnostics #idrAdvancedExperience {
+  display: flex !important;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Base Container */
+#idrStandardExperience {
+  min-height: 100vh;
+  background: #f4f6f4;
+  color: #111613;
+  display: none;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  position: relative;
+}
+
+/* Standard Top App Header */
+.std-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid #e3e8e5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.std-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.std-logo-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: #111613;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a7f3d0;
+  font-weight: 800;
+  font-size: 0.98rem;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.std-brand-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111613;
+  letter-spacing: -0.3px;
+  line-height: 1.1;
+}
+
+.std-brand-sub {
+  font-size: 0.72rem;
+  color: #5d6761;
+  font-weight: 500;
+}
+
+.std-sector-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eaf1ed;
+  color: #274032;
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid #d4dfd8;
+}
+
+@media (max-width: 600px) {
+  .std-sector-pill { display: none; }
+}
+
+.std-header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.std-btn-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e3e8e5;
+  background: #ffffff;
+  color: #111613;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.std-btn-circle:hover {
+  background: #f0f4f1;
+  transform: translateY(-1px);
+}
+
+.std-bell-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #ffffff;
+}
+
+.std-btn-engineering {
+  background: #111613;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(17, 22, 19, 0.15);
+}
+
+.std-btn-engineering:hover {
+  background: #232c26;
+  transform: translateY(-1px);
+}
+
+/* Page Containers */
+.std-page-container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 20px 110px 20px;
+}
+
+.std-page-container.wide {
+  max-width: 100%;
+  padding: 16px 20px 110px 20px;
+}
+
+/* Views */
+.std-view {
+  display: none;
+  animation: stdFadeIn 0.25s ease-out;
+}
+
+.std-view.active {
+  display: block;
+}
+
+@keyframes stdFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Profile Ribbon (Reference Screen 1) */
+.std-profile-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.std-profile-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.std-profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #e2e8e4;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #14532d;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+}
+
+.std-profile-name {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111613;
+  line-height: 1.1;
+}
+
+.std-profile-loc {
+  font-size: 0.78rem;
+  color: #64746b;
+  font-weight: 500;
+}
+
+/* Search Bar (Reference Screen 1) */
+.std-search-wrapper {
+  margin-bottom: 22px;
+  position: relative;
+}
+
+.std-search-bar {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e1e7e3;
+  border-radius: 9999px;
+  padding: 6px 8px 6px 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.std-search-bar:focus-within {
+  border-color: #10b981;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.12);
+}
+
+.std-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111613;
+  font-family: inherit;
+  padding: 6px 0;
+}
+
+.std-search-input::placeholder {
+  color: #8c9790;
+}
+
+.std-scan-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #111613;
+  color: #a7f3d0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.std-scan-btn:hover {
+  background: #232c26;
+}
+
+/* Hero Card: Nearest Deliveries / Active Corridor (Reference Screen 1) */
+.std-hero-card {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  border: 1px solid #86efac;
+  border-radius: 28px;
+  padding: 24px;
+  margin-bottom: 26px;
+  box-shadow: 0 12px 32px rgba(34, 197, 94, 0.14);
+  position: relative;
+  overflow: hidden;
+}
+
+.std-hero-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.std-hero-tracking-tag {
+  font-size: 0.78rem;
+  color: #166534;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.std-hero-tracking-num {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #14532d;
+}
+
+.std-hero-pill-badge {
+  background: #111613;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  letter-spacing: 0.3px;
+}
+
+.std-hero-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(22, 101, 52, 0.18);
+  border-radius: 9999px;
+  margin: 16px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.std-hero-progress-fill {
+  width: 52%;
+  height: 100%;
+  background: #15803d;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
+}
+
+.std-hero-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.std-hero-stat-label {
+  font-size: 0.74rem;
+  color: #166534;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.std-hero-stat-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #14532d;
+}
+
+.std-hero-action-row {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.std-btn-hero-primary {
+  background: #111613;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 22px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(17, 22, 19, 0.2);
+}
+
+.std-btn-hero-primary:hover {
+  background: #232c26;
+  transform: translateY(-1px);
+}
+
+/* Section Titles */
+.std-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.std-section-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111613;
+  letter-spacing: -0.2px;
+}
+
+.std-section-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #15803d;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Services / Quick Actions Grid (Reference Screen 1) */
+.std-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 768px) {
+  .std-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.std-service-card {
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  border-radius: 22px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.std-service-card:hover {
+  transform: translateY(-2px);
+  border-color: #bbf7d0;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.std-service-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: #f0f4f1;
+  color: #111613;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.std-service-title {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: #111613;
+}
+
+.std-service-desc {
+  font-size: 0.74rem;
+  color: #5d6761;
+  line-height: 1.3;
+}
+
+/* History / Trips List Cards (Reference Screen 1) */
+.std-trips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.std-trip-card {
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  border-radius: 22px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.std-trip-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: #cbd5ce;
+}
+
+.std-trip-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.std-trip-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: #eaf1ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #166534;
+}
+
+.std-trip-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #111613;
+}
+
+.std-trip-sub {
+  font-size: 0.78rem;
+  color: #64746b;
+  margin-top: 2px;
+}
+
+.std-trip-badge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  background: #f0f4f1;
+  color: #274032;
+  border: 1px solid #dbe3dd;
+}
+
+.std-trip-badge.success {
+  background: #dcfce7;
+  color: #14532d;
+  border-color: #bbf7d0;
+}
+
+/* System Readiness Strip */
+.std-readiness-strip {
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  border-radius: 20px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.std-readiness-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #15803d;
+}
+
+/* Live Navigation Map First View (Reference Screen 2) */
+.std-livenav-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 170px);
+  min-height: 580px;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  border: 1px solid #e1e7e3;
+  background: #1e293b;
+}
+
+.std-map-mount {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Maneuver Card (Reference Screen 2: Top Left Green Squircle) */
+.std-maneuver-card {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 20;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: #ffffff;
+  border-radius: 24px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 10px 28px rgba(22, 163, 74, 0.35);
+  max-width: 380px;
+}
+
+.std-maneuver-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.std-maneuver-dist {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.std-maneuver-street {
+  font-size: 0.82rem;
+  font-weight: 600;
+  opacity: 0.95;
+  margin-top: 3px;
+}
+
+/* IDR Status Pill (Reference Screen 2: Top Right) */
+.std-idr-chip {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.std-idr-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.std-idr-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.std-idr-dot.outage {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+  animation: stdPulse 1.2s infinite;
+}
+
+.std-idr-chip-text {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #111613;
+}
+
+.std-idr-chip-sub {
+  font-size: 0.68rem;
+  color: #64746b;
+  font-family: var(--font-mono);
+}
+
+/* FAB Column (Map Controls) */
+.std-fabs-column {
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.std-fab {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111613;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.std-fab:hover {
+  transform: translateY(-2px);
+  background: #f0f4f1;
+}
+
+/* Speedometer Pill */
+.std-speed-badge {
+  position: absolute;
+  bottom: 120px;
+  left: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(17, 22, 19, 0.88);
+  backdrop-filter: blur(12px);
+  border-radius: 9999px;
+  padding: 6px 14px 6px 8px;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.std-speed-limit-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #ef4444;
+  background: #ffffff;
+  color: #111613;
+  font-weight: 800;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.std-speed-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #38bdf8;
+  font-family: var(--font-mono);
+}
+
+.std-speed-unit {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+/* Live Navigation Contextual Bottom Sheet (Reference Screen 2) */
+.std-nav-bottom-sheet {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 640px;
+  z-index: 25;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+  padding: 16px 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18);
+  border: 1px solid #e1e7e3;
+}
+
+.std-sheet-slider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.std-sheet-slider-text {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #111613;
+}
+
+.std-sheet-slider-track {
+  width: 100%;
+  height: 6px;
+  background: #e5eae6;
+  border-radius: 9999px;
+  position: relative;
+  margin: 8px 0 12px 0;
+}
+
+.std-sheet-slider-fill {
+  width: 45%;
+  height: 100%;
+  background: #16a34a;
+  border-radius: 9999px;
+}
+
+.std-sheet-slider-thumb {
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #111613;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.std-sheet-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.std-btn-sheet-primary {
+  flex: 1;
+  background: #111613;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.std-btn-sheet-primary:hover {
+  background: #232c26;
+}
+
+.std-reliability-card {
+  background: #f0f4f1;
+  border-radius: 16px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dbe3dd;
+}
+
+.std-reliability-label {
+  font-size: 0.74rem;
+  color: #4a554f;
+  font-weight: 600;
+}
+
+.std-reliability-badge {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.std-uncertainty-val {
+  font-size: 0.76rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #166534;
+}
+
+/* Slide to Action Slider (Reference Screen 3) */
+.std-slide-action-box {
+  width: 100%;
+  height: 56px;
+  background: linear-gradient(90deg, #dcfce7 0%, #a7f3d0 100%);
+  border-radius: 9999px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #86efac;
+  box-shadow: 0 4px 16px rgba(34, 197, 94, 0.15);
+  margin-top: 18px;
+}
+
+.std-slide-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #14532d;
+  letter-spacing: -0.2px;
+}
+
+.std-slide-thumb {
+  position: absolute;
+  left: 5px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.4);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Floating Bottom Navigation Dock (Reference Inspired) */
+.std-bottom-dock {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: #111613;
+  border-radius: 40px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.std-dock-item {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #8c9790;
+  padding: 10px 18px;
+  border-radius: 28px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: inherit;
+}
+
+.std-dock-item svg {
+  width: 19px;
+  height: 19px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.std-dock-item:hover {
+  color: #ffffff;
+}
+
+.std-dock-item.active {
+  background: #ffffff;
+  color: #111613;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.std-dock-badge {
+  background: #ef4444;
+  color: white;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-weight: 800;
+}
+
+/* Toast Notifications */
+.std-toast {
+  position: fixed;
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #111613;
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  z-index: 1000;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.std-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Modals */
+.std-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.std-modal-overlay.open {
+  display: flex;
+}
+
+.std-modal-card {
+  background: #ffffff;
+  border-radius: 28px;
+  max-width: 540px;
+  width: 100%;
+  padding: 28px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  border: 1px solid #e1e7e3;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Settings Form Elements */
+.std-settings-group {
+  background: #ffffff;
+  border: 1px solid #e5eae6;
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.std-settings-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #111613;
+  margin-bottom: 12px;
+}
+
+.std-check-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f4f1;
+}
+
+.std-check-row:last-child {
+  border-bottom: none;
+}
+
+</style>
 </head>
 <body class="view-mode-standard">
 
@@ -3966,7 +5035,773 @@
   <!-- =========================================================
        VERTICAL SIDEBAR NAVIGATION (.app-sidebar)
        ========================================================= -->
-  <aside class="app-sidebar" id="appSidebar">
+  
+  <!-- ========================================================================== -->
+  <!-- IDR STANDARD EXPERIENCE: REFERENCE-INSPIRED LIGHT NAVIGATION ARCHITECTURE   -->
+  <!-- ========================================================================== -->
+  <div id="idrStandardExperience">
+
+    <!-- Top App Header -->
+    <header class="std-header">
+      <div class="std-header-left">
+        <div class="std-logo-badge">IDR</div>
+        <div>
+          <div class="std-brand-name">IDR Navigation</div>
+          <div class="std-brand-sub">Intelligent Dead Reckoning with GNSS Fusion</div>
+        </div>
+        <div class="std-sector-pill">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #16a34a;"></span>
+          <span id="stdHeaderSectorName">Gandhinagar / Ahmedabad Sector</span>
+        </div>
+      </div>
+
+      <div class="std-header-right">
+        <button class="std-btn-circle" onclick="stdSwitchView('alerts')" title="Alerts &amp; Notifications">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="std-bell-badge" id="stdUnreadBadge"></span>
+        </button>
+        <button class="std-btn-engineering" onclick="setViewMode('diagnostics')" title="Switch to Advanced Engineering Cockpit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M20 12h2"/><path d="M2 12h2"/></svg>
+          <span>Engineering Cockpit</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="std-page-container" id="stdPageContainer">
+
+      <!-- ============================================== -->
+      <!-- VIEW 1: HOME (REFERENCE SCREEN 1 INSPIRATION)  -->
+      <!-- ============================================== -->
+      <section class="std-view active" id="std-view-home">
+        
+        <!-- Driver Profile Bar -->
+        <div class="std-profile-bar">
+          <div class="std-profile-user">
+            <div class="std-profile-avatar">IDR</div>
+            <div>
+              <div class="std-profile-name">Driver Profile • Sector 01</div>
+              <div class="std-profile-loc">Autonomous Corridor Active • Decimeter Lane Keeping</div>
+            </div>
+          </div>
+          <button class="std-btn-circle" onclick="stdSwitchView('settings')" title="Device &amp; Settings">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+
+        <!-- Search Bar (Reference Screen 1) -->
+        <div class="std-search-wrapper">
+          <div class="std-search-bar" onclick="stdSwitchView('navigate')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#718077" stroke-width="2.2" style="margin-right: 10px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="std-search-input" placeholder="Where do you want to go? Search destination or corridor..." readonly>
+            <button class="std-scan-btn" title="Scan Corridor QR / Barcode">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Card: Nearest Deliveries / Active Corridor (Reference Screen 1) -->
+        <div class="std-hero-card">
+          <div class="std-hero-card-header">
+            <div>
+              <div class="std-hero-tracking-tag">Active Navigation Corridor</div>
+              <div class="std-hero-tracking-num" id="stdHeroCorridorNum">Corridor #IDR-8492</div>
+            </div>
+            <div class="std-hero-pill-badge" id="stdHeroStatusBadge">IDR ARMED</div>
+          </div>
+
+          <div class="std-hero-progress-track">
+            <div class="std-hero-progress-fill" id="stdHeroProgressFill"></div>
+          </div>
+
+          <div class="std-hero-info-grid">
+            <div>
+              <div class="std-hero-stat-label">From</div>
+              <div class="std-hero-stat-val" id="stdHeroOrigin">Ahmedabad SG Highway</div>
+            </div>
+            <div>
+              <div class="std-hero-stat-label">To</div>
+              <div class="std-hero-stat-val" id="stdHeroDest">GIFT City Gandhinagar</div>
+            </div>
+            <div>
+              <div class="std-hero-stat-label">Estimated Arrival</div>
+              <div class="std-hero-stat-val" id="stdHeroArrival">09:43 AM (48 min • 32.4 km)</div>
+            </div>
+          </div>
+
+          <div class="std-hero-action-row">
+            <div style="font-size: 0.78rem; color: #166534; font-weight: 600;">
+              <span>● NavIC Dual-Band + 200Hz INS Ready</span>
+            </div>
+            <button class="std-btn-hero-primary" onclick="stdStartNavigation()">
+              <span>Engage Live Navigation</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Action Services Grid (Reference Screen 1) -->
+        <div class="std-section-header">
+          <div class="std-section-title">Navigation Services &amp; Subsystems</div>
+          <a class="std-section-link" onclick="stdSwitchView('settings')">View All →</a>
+        </div>
+
+        <div class="std-services-grid">
+          <div class="std-service-card" onclick="stdSwitchView('livenav')">
+            <div class="std-service-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></svg>
+            </div>
+            <div class="std-service-title">GNSS Health</div>
+            <div class="std-service-desc" id="stdSvcGnss">NavIC L5 + GPS Locked (18 Sats • CEP 0.4m)</div>
+          </div>
+
+          <div class="std-service-card" onclick="stdCalibrateDevice()">
+            <div class="std-service-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="std-service-title">Sensor Calibration</div>
+            <div class="std-service-desc" id="stdSvcSensor">200Hz Strapdown Aligned (R_VP Zero-Drift)</div>
+          </div>
+
+          <div class="std-service-card" onclick="stdSwitchView('settings')">
+            <div class="std-service-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+            </div>
+            <div class="std-service-title">Offline Maps</div>
+            <div class="std-service-desc">Ahmedabad &amp; Gandhinagar Vector Cache Active</div>
+          </div>
+
+          <div class="std-service-card" onclick="stdSwitchView('settings')">
+            <div class="std-service-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+            </div>
+            <div class="std-service-title">Vehicle Profile</div>
+            <div class="std-service-desc" id="stdSvcVehicle">Passenger Car (NHC Lateral Zero-Slip Active)</div>
+          </div>
+        </div>
+
+        <!-- Recent Navigation Trips (Reference Screen 1) -->
+        <div class="std-section-header">
+          <div class="std-section-title">Recent Navigation Trips</div>
+          <a class="std-section-link" onclick="stdSwitchView('trips')">View History →</a>
+        </div>
+
+        <div class="std-trips-list">
+          <div class="std-trip-card" onclick="stdOpenTripDetail('ahmedabad')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Ahmedabad SG Highway → GIFT City</div>
+                <div class="std-trip-sub">48 min • 32.4 km • 2 GNSS drops handled</div>
+              </div>
+            </div>
+            <div class="std-trip-badge success">IDR Assisted (4m 18s)</div>
+          </div>
+
+          <div class="std-trip-card" onclick="stdOpenTripDetail('pragati')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #fef3c7; color: #b45309;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Pragati Maidan Underground Tunnel Run</div>
+                <div class="std-trip-sub">14 min • 6.2 km • 100% Dead Reckoning continuity</div>
+              </div>
+            </div>
+            <div class="std-trip-badge">1.1m Peak Drift</div>
+          </div>
+
+          <div class="std-trip-card" onclick="stdOpenTripDetail('barapullah')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #e0f2fe; color: #0369a1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Barapullah Multi-level Flyover Disambiguation</div>
+                <div class="std-trip-sub">18 min • 8.6 km • Grade-Separation Disambiguated (+12m)</div>
+              </div>
+            </div>
+            <div class="std-trip-badge">HMM Matched (98.4%)</div>
+          </div>
+        </div>
+
+        <!-- Navigation Readiness Strip -->
+        <div class="std-readiness-strip">
+          <div class="std-readiness-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>NavIC L5 + GPS Dual-Band</span>
+          </div>
+          <div class="std-readiness-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>IMU 200Hz Aligned (R_VP)</span>
+          </div>
+          <div class="std-readiness-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Offline Map Vector Cache</span>
+          </div>
+          <div class="std-readiness-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>15-State ESKF Fusion Armed</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 2: NAVIGATE / ROUTE PREVIEW               -->
+      <!-- ============================================== -->
+      <section class="std-view" id="std-view-navigate">
+        <div class="std-section-header">
+          <div class="std-section-title">Select Route &amp; Resilient Corridor</div>
+        </div>
+
+        <!-- Corridor Presets -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+          <button class="std-trip-badge success" style="cursor: pointer;" onclick="stdSelectCorridorPreset('ahmedabad')">📍 Ahmedabad → GIFT City</button>
+          <button class="std-trip-badge" style="cursor: pointer;" onclick="stdSelectCorridorPreset('pragati')">🚇 Pragati Maidan Tunnel (Outage)</button>
+          <button class="std-trip-badge" style="cursor: pointer;" onclick="stdSelectCorridorPreset('barapullah')">🌉 Barapullah Elevated (+12m)</button>
+          <button class="std-trip-badge" style="cursor: pointer;" onclick="stdSelectCorridorPreset('mumbai')">🌊 Mumbai Coastal Undersea</button>
+          <button class="std-trip-badge" style="cursor: pointer;" onclick="stdSelectCorridorPreset('silkboard')">🚦 Silk Board Electronic City</button>
+        </div>
+
+        <!-- Route Resilience Card (Prompt 28 & 29) -->
+        <div class="std-settings-group" style="border-color: #86efac; background: #ffffff;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div style="font-weight: 800; font-size: 1.15rem; color: #111613;" id="stdRouteTitle">Ahmedabad SG Highway → GIFT City</div>
+            <span class="std-hero-pill-badge" style="background: #16a34a;">98.4% RESILIENCE</span>
+          </div>
+          <div style="font-size: 0.85rem; color: #64746b; margin-top: 4px;" id="stdRouteSub">32.4 km • 48 min • 2 potential GNSS-risk areas</div>
+
+          <!-- Interactive Corridor Line with Risk Markers (Prompt 29) -->
+          <div style="margin: 22px 0; position: relative;">
+            <div style="height: 6px; background: #e5eae6; border-radius: 9999px; width: 100%;"></div>
+            <div style="height: 6px; background: #22c55e; border-radius: 9999px; width: 68%; position: absolute; top: 0; left: 0;"></div>
+            <!-- Marker 1: Tunnel -->
+            <div style="position: absolute; top: -7px; left: 38%; cursor: pointer;" onclick="alert('Potential GNSS degradation: Pragati Tunnel (km 12.4)\nIDR automatically activates learned TCN-GRU velocity inference and NHC constraints to maintain lane positioning.');">
+              <div style="width: 20px; height: 20px; border-radius: 50%; background: #f59e0b; border: 3px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.25);"></div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #b45309; position: absolute; top: 22px; left: -14px; white-space: nowrap;">Tunnel ●</div>
+            </div>
+            <!-- Marker 2: Canyon -->
+            <div style="position: absolute; top: -7px; left: 65%; cursor: pointer;" onclick="alert('Potential GNSS degradation: Urban Canyon (km 21.0)\nHigh-rise reflections detected. ESKF innovation gating prevents multipath trajectory jump.');">
+              <div style="width: 20px; height: 20px; border-radius: 50%; background: #3b82f6; border: 3px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.25);"></div>
+              <div style="font-size: 0.68rem; font-weight: 700; color: #1d4ed8; position: absolute; top: 22px; left: -14px; white-space: nowrap;">Canyon ●</div>
+            </div>
+          </div>
+
+          <div style="font-size: 0.76rem; color: #5d6761; margin-top: 30px; background: #f0f4f1; padding: 12px 16px; border-radius: 14px;">
+            💡 <strong>IDR Resilience Guarantee:</strong> If dual-band GNSS signals drop below C/N0 28 dB-Hz, the 15-state error-state Kalman filter immediately engages continuous dead reckoning. Estimated drift is constrained to &lt;1.2m over 60 seconds.
+          </div>
+
+          <!-- Vehicle Profile Selector -->
+          <div style="margin-top: 20px;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #111613; margin-bottom: 8px;">Select Vehicle Constraints:</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="std-trip-badge success" onclick="stdSelectVehicle('car', this)">🚗 Passenger Car</button>
+              <button class="std-trip-badge" onclick="stdSelectVehicle('suv', this)">🚙 SUV</button>
+              <button class="std-trip-badge" onclick="stdSelectVehicle('motorcycle', this)">🏍️ Two-Wheeler</button>
+              <button class="std-trip-badge" onclick="stdSelectVehicle('ev', this)">⚡ Electric Vehicle</button>
+              <button class="std-trip-badge" onclick="stdSelectVehicle('truck', this)">🚛 Heavy Truck</button>
+            </div>
+          </div>
+
+          <!-- Slide to Engage Navigation (Reference Screen 3 Style) -->
+          <div class="std-slide-action-box" id="stdSlideActionBox" onclick="stdStartNavigation()">
+            <div class="std-slide-thumb" id="stdSlideThumb">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+            </div>
+            <span class="std-slide-label">Slide to engage IDR navigation &gt;&gt;</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 3: LIVE NAVIGATION (MAP FIRST!)           -->
+      <!-- ============================================== -->
+      <section class="std-view" id="std-view-livenav">
+        <div class="std-livenav-wrapper" id="stdLiveNavWrapper">
+          
+          <!-- Map Mount (where #mainMapCard or canvas lives) -->
+          <div class="std-map-mount" id="stdMapMount"></div>
+
+          <!-- Floating Maneuver Card (Reference Screen 2: Top Left) -->
+          <div class="std-maneuver-card">
+            <div class="std-maneuver-icon-wrap" id="stdManeuverIconWrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+            <div>
+              <div class="std-maneuver-dist" id="stdManeuverDist">In 300 m</div>
+              <div class="std-maneuver-street" id="stdManeuverStreet">Ahmedabad-Gandhinagar Expressway • Keep Right</div>
+            </div>
+          </div>
+
+          <!-- IDR Signature Status Chip (Reference Screen 2: Top Right) -->
+          <div class="std-idr-chip" onclick="stdToggleWhyIdr(true)" title="Tap to see why IDR is active">
+            <span class="std-idr-dot" id="stdIdrStatusDot"></span>
+            <div>
+              <div class="std-idr-chip-text" id="stdIdrStatusTitle">● IDR ACTIVE</div>
+              <div class="std-idr-chip-sub" id="stdIdrStatusSub">GNSS Dual-Band Fixed (±0.4m)</div>
+            </div>
+          </div>
+
+          <!-- Floating Action FABs -->
+          <div class="std-fabs-column">
+            <button class="std-fab" onclick="toggleCompassBearing()" title="Align Compass to True North">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15 11 12 9 9 11 12 2" fill="#ea4335"/><polygon points="12 22 15 13 12 15 9 13 12 22" fill="#9aa0a6"/></svg>
+            </button>
+            <button class="std-fab" onclick="toggle3DView()" title="Toggle 3D Vector Tilt">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </button>
+            <button class="std-fab" onclick="recenterMapLocation()" title="Recenter to Vehicle Location">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+            </button>
+            <button class="std-fab" onclick="toggleVoiceAudio()" title="Voice Guidance">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            </button>
+          </div>
+
+          <!-- Speedometer & Speed Limit Pill -->
+          <div class="std-speed-badge">
+            <div class="std-speed-limit-circle">50</div>
+            <div>
+              <span class="std-speed-val" id="stdLiveSpeedNum">48</span>
+              <span class="std-speed-unit">KM/H</span>
+            </div>
+          </div>
+
+          <!-- Live Navigation Contextual Bottom Sheet (Reference Screen 2) -->
+          <div class="std-nav-bottom-sheet">
+            <!-- Position Reliability Card (Prompt 22) -->
+            <div class="std-reliability-card">
+              <div>
+                <div class="std-reliability-label">POSITION RELIABILITY</div>
+                <div class="std-reliability-badge" id="stdReliabilityBadge">HIGH CONFIDENCE</div>
+              </div>
+              <div>
+                <div class="std-reliability-label">ESTIMATED UNCERTAINTY</div>
+                <div class="std-uncertainty-val" id="stdUncertaintyVal">±0.4 m (CEP95)</div>
+              </div>
+            </div>
+
+            <!-- Progress slider row (Reference Screen 2) -->
+            <div class="std-sheet-slider-row">
+              <span class="std-sheet-slider-text" id="stdSheetRemDist">0.96 mi (2.4 km)</span>
+              <span class="std-sheet-slider-text" id="stdSheetRemTime">2 min</span>
+              <span class="std-sheet-slider-text" id="stdSheetEta">ETA 09:43</span>
+            </div>
+
+            <div class="std-sheet-slider-track">
+              <div class="std-sheet-slider-fill" id="stdSheetSliderFill"></div>
+              <div class="std-sheet-slider-thumb" id="stdSheetSliderThumb"></div>
+            </div>
+
+            <!-- Actions Row -->
+            <div class="std-sheet-actions-row">
+              <button class="std-btn-sheet-primary" id="stdBtnOutage" onclick="stdTriggerOutage()">
+                <span>🚨 Trigger 30s Outage</span>
+              </button>
+              <button class="std-btn-circle" onclick="stdToggleWhyIdr(true)" title="Why is IDR active?">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </button>
+              <button class="std-btn-circle" onclick="stdSwitchView('home')" title="Pause / Exit Navigation">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 4: TRIPS & RESILIENCE AUDITS              -->
+      <!-- ============================================== -->
+      <section class="std-view" id="std-view-trips">
+        <div class="std-section-header">
+          <div class="std-section-title">Trip History &amp; Resilience Audits</div>
+        </div>
+
+        <div class="std-trips-list">
+          <div class="std-trip-card" onclick="stdOpenTripDetail('ahmedabad')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Ahmedabad SG Highway → GIFT City Gandhinagar</div>
+                <div class="std-trip-sub">48 min • 32.4 km • IDR Assistance: 4m 18s • 2 GNSS interruptions</div>
+              </div>
+            </div>
+            <div class="std-trip-badge success">Resilience: 99.1%</div>
+          </div>
+
+          <div class="std-trip-card" onclick="stdOpenTripDetail('pragati')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #fef3c7; color: #b45309;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Pragati Maidan Underground Tunnel Run</div>
+                <div class="std-trip-sub">14 min • 6.2 km • 100% Dead Reckoning continuity • Peak drift 1.1m</div>
+              </div>
+            </div>
+            <div class="std-trip-badge">SIH Pass (20.8x)</div>
+          </div>
+
+          <div class="std-trip-card" onclick="stdOpenTripDetail('barapullah')">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #e0f2fe; color: #0369a1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Barapullah Multi-level Flyover Disambiguation</div>
+                <div class="std-trip-sub">18 min • 8.6 km • Barometric Δh: +12m • HMM confidence 98.4%</div>
+              </div>
+            </div>
+            <div class="std-trip-badge success">Elevation Solved</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 5: ALERTS & SYSTEM EVENTS                 -->
+      <!-- ============================================== -->
+      <section class="std-view" id="std-view-alerts">
+        <div class="std-section-header">
+          <div class="std-section-title">Navigation Alerts &amp; Event Stream</div>
+          <button class="std-section-link" onclick="stdClearAlerts()">Clear Read</button>
+        </div>
+
+        <div class="std-trips-list" id="stdAlertsList">
+          <div class="std-trip-card">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #fef3c7; color: #b45309;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Attention: GNSS reliability decreased</div>
+                <div class="std-trip-sub">IDR is assisting navigation via 200Hz strapdown INS &amp; TCN-GRU model.</div>
+              </div>
+            </div>
+            <div style="font-size: 0.72rem; color: #64746b;">2m ago</div>
+          </div>
+
+          <div class="std-trip-card">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #dcfce7; color: #15803d;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Information: Dual-Band GNSS Restored</div>
+                <div class="std-trip-sub">Kalman innovation gate verified. Vehicle position synchronized (±0.4m).</div>
+              </div>
+            </div>
+            <div style="font-size: 0.72rem; color: #64746b;">6m ago</div>
+          </div>
+
+          <div class="std-trip-card">
+            <div class="std-trip-left">
+              <div class="std-trip-icon-wrap" style="background: #e0f2fe; color: #0369a1;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+              </div>
+              <div>
+                <div class="std-trip-title">Information: Offline Vector Cache Loaded</div>
+                <div class="std-trip-sub">Ahmedabad &amp; Gandhinagar road graph (SQLite R-tree) verified on-device.</div>
+              </div>
+            </div>
+            <div style="font-size: 0.72rem; color: #64746b;">18m ago</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================== -->
+      <!-- VIEW 6: SETTINGS & SYSTEM HARDWARE             -->
+      <!-- ============================================== -->
+      <section class="std-view" id="std-view-settings">
+        <div class="std-section-header">
+          <div class="std-section-title">Settings &amp; Device Architecture</div>
+        </div>
+
+        <!-- Vehicle Profile Group -->
+        <div class="std-settings-group">
+          <div class="std-settings-title">🚗 Vehicle Profile &amp; Motion Constraints</div>
+          <div style="font-size: 0.8rem; color: #5d6761; margin-bottom: 14px;">
+            IDR adapts non-holonomic motion constraints (v_lateral = 0) and neural vibration harmonics based on vehicle physics.
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="std-trip-badge success" onclick="stdSelectVehicle('car', this)">🚗 Passenger Car</button>
+            <button class="std-trip-badge" onclick="stdSelectVehicle('suv', this)">🚙 SUV</button>
+            <button class="std-trip-badge" onclick="stdSelectVehicle('motorcycle', this)">🏍️ Two-Wheeler</button>
+            <button class="std-trip-badge" onclick="stdSelectVehicle('ev', this)">⚡ Electric Vehicle</button>
+            <button class="std-trip-badge" onclick="stdSelectVehicle('bus', this)">🚌 Fleet Bus</button>
+            <button class="std-trip-badge" onclick="stdSelectVehicle('truck', this)">🚛 Heavy Truck</button>
+          </div>
+        </div>
+
+        <!-- Device Readiness & Sensor Health (Prompt 35) -->
+        <div class="std-settings-group">
+          <div class="std-settings-title">📱 Device Readiness &amp; Sensor Health</div>
+          <div class="std-check-row">
+            <span>Dual-Band GNSS (NavIC L5 + GPS L1/L5)</span>
+            <span style="color: #15803d; font-weight: 700;">✓ HEALTHY (18 Sats)</span>
+          </div>
+          <div class="std-check-row">
+            <span>3-Axis Accelerometer (200Hz)</span>
+            <span style="color: #15803d; font-weight: 700;">✓ CALIBRATED</span>
+          </div>
+          <div class="std-check-row">
+            <span>3-Axis Gyroscope (200Hz)</span>
+            <span style="color: #15803d; font-weight: 700;">✓ CALIBRATED</span>
+          </div>
+          <div class="std-check-row">
+            <span>3-Axis Magnetometer (50Hz)</span>
+            <span style="color: #15803d; font-weight: 700;">✓ ALIGNED</span>
+          </div>
+          <div class="std-check-row">
+            <span>Barometer Hypsometry (10Hz)</span>
+            <span style="color: #15803d; font-weight: 700;">✓ LOCKED (±0.1m)</span>
+          </div>
+          <div class="std-check-row">
+            <span>Phone Mount Stability</span>
+            <span style="color: #15803d; font-weight: 800;">GOOD (Windshield Mount)</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="std-btn-hero-primary" onclick="stdCalibrateDevice()">
+              <span>Calibrate Device Alignment (R_VP)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Offline Maps (Prompt 37) -->
+        <div class="std-settings-group">
+          <div class="std-settings-title">🗺️ Offline Maps &amp; Storage Cache</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 0.85rem; color: #5d6761;">Storage Allocation:</span>
+            <span style="font-size: 0.85rem; font-weight: 700; color: #111613;">1.2 GB used of 4.8 GB available (25%)</span>
+          </div>
+          <div style="height: 6px; background: #e5eae6; border-radius: 9999px; margin-bottom: 14px;">
+            <div style="width: 25%; height: 100%; background: #16a34a; border-radius: 9999px;"></div>
+          </div>
+          <div class="std-check-row">
+            <span>Ahmedabad Metropolitan Area</span>
+            <span class="std-trip-badge success">Downloaded ✓</span>
+          </div>
+          <div class="std-check-row">
+            <span>Gandhinagar Capital Sector &amp; GIFT City</span>
+            <span class="std-trip-badge success">Downloaded ✓</span>
+          </div>
+          <div class="std-check-row">
+            <span>Surat Urban Corridor</span>
+            <button class="std-trip-badge" style="cursor: pointer;" onclick="alert('Downloading Surat regional vector tiles (340 MB)...');">Download (340 MB)</button>
+          </div>
+        </div>
+
+        <!-- Privacy Center & DPDP Shield (Prompt 39) -->
+        <div class="std-settings-group">
+          <div class="std-settings-title">🛡️ DPDP Act 2023 Privacy Shield</div>
+          <div class="std-check-row">
+            <span>Location Processing Mode</span>
+            <span class="std-trip-badge success">On-Device Local Only</span>
+          </div>
+          <div class="std-check-row">
+            <span>Trip History Storage</span>
+            <span class="std-trip-badge success">Encrypted SQLite</span>
+          </div>
+          <div class="std-check-row">
+            <span>Cloud Telemetry Sync</span>
+            <span class="std-trip-badge">Disabled</span>
+          </div>
+          <div style="margin-top: 14px;">
+            <button class="std-trip-badge" style="cursor: pointer; background: #fee2e2; color: #dc2626; border-color: #fca5a5;" onclick="executeRightToErasure()">
+              Execute Right to Erasure (§6 DPDP Act)
+            </button>
+          </div>
+        </div>
+
+        <!-- Switch to Advanced Cockpit Card -->
+        <div class="std-settings-group" style="background: #111613; color: #ffffff; border-color: #262e29;">
+          <div style="font-size: 1.1rem; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+            Advanced Engineering Diagnostics
+          </div>
+          <div style="font-size: 0.8rem; color: #a1ada6; line-height: 1.4; margin-bottom: 16px;">
+            Inspect complete 15-state ESKF covariance matrices, TCN-GRU neural feature vectors, SQLite spatial R-tree schemas, NavIC sky constellations, and fault-injection scenarios.
+          </div>
+          <button class="std-btn-hero-primary" style="background: #ffffff; color: #111613;" onclick="setViewMode('diagnostics')">
+            <span>Launch Engineering Cockpit →</span>
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- ============================================== -->
+    <!-- FLOATING BOTTOM NAVIGATION DOCK (REFERENCE)   -->
+    <!-- ============================================== -->
+    <nav class="std-bottom-dock" id="stdBottomDock">
+      <button class="std-dock-item active" id="stdNavBtn-home" onclick="stdSwitchView('home')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </button>
+
+      <button class="std-dock-item" id="stdNavBtn-navigate" onclick="stdSwitchView('navigate')">
+        <svg viewBox="0 0 24 24" fill="none"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+        <span>Navigate</span>
+      </button>
+
+      <button class="std-dock-item" id="stdNavBtn-livenav" onclick="stdSwitchView('livenav')">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        <span>Live</span>
+      </button>
+
+      <button class="std-dock-item" id="stdNavBtn-trips" onclick="stdSwitchView('trips')">
+        <svg viewBox="0 0 24 24" fill="none"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Trips</span>
+      </button>
+
+      <button class="std-dock-item" id="stdNavBtn-alerts" onclick="stdSwitchView('alerts')">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span>Alerts</span>
+        <span class="std-dock-badge" id="stdAlertCountBadge">1</span>
+      </button>
+
+      <button class="std-dock-item" id="stdNavBtn-settings" onclick="stdSwitchView('settings')">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <!-- Contextual In-App Toast Alert (Prompt 19) -->
+    <div class="std-toast" id="stdToastAlert">
+      <span id="stdToastIcon">⚠️</span>
+      <span id="stdToastMsg">GNSS reliability decreased: IDR is maintaining position via INS + Neural models.</span>
+    </div>
+
+    <!-- "Why IDR is Active" Explanation Modal (Prompt 23) -->
+    <div class="std-modal-overlay" id="stdWhyIdrModal" onclick="if(event.target===this) stdToggleWhyIdr(false);">
+      <div class="std-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div style="font-weight: 800; font-size: 1.2rem; color: #111613;">Why is IDR Active?</div>
+          <button class="std-btn-circle" onclick="stdToggleWhyIdr(false)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div style="font-size: 0.85rem; color: #5d6761; line-height: 1.5; margin-bottom: 18px;">
+          When GNSS quality decreases (due to underground tunnels, dense urban canyons, or electromagnetic interference), IDR seamlessly maintains decimeter lane localization using 4 synchronized layers:
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start; background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 1.3rem;">⚡</div>
+            <div>
+              <div style="font-weight: 800; font-size: 0.88rem; color: #111613;">200Hz Strapdown Inertial Navigation (INS)</div>
+              <div style="font-size: 0.76rem; color: #5d6761;">High-speed quaternion attitude integration and zero-velocity gravity alignment (R_VP).</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start; background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 1.3rem;">🧠</div>
+            <div>
+              <div style="font-weight: 800; font-size: 0.88rem; color: #111613;">TCN-GRU Neural Motion Intelligence</div>
+              <div style="font-size: 0.76rem; color: #5d6761;">Lightweight neural model infers forward speed from vehicle structural vibrations (±0.3 m/s).</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start; background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 1.3rem;">🚗</div>
+            <div>
+              <div style="font-weight: 800; font-size: 0.88rem; color: #111613;">Non-Holonomic Vehicle Constraints (NHC)</div>
+              <div style="font-size: 0.76rem; color: #5d6761;">Enforces physical ground rules (v_lateral ≈ 0, v_vertical ≈ 0) to eliminate sideways drift.</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start; background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 1.3rem;">🗺️</div>
+            <div>
+              <div style="font-weight: 800; font-size: 0.88rem; color: #111613;">Probabilistic HMM Map Matching &amp; Spatial R-Tree</div>
+              <div style="font-size: 0.76rem; color: #5d6761;">Snaps estimated trajectory to drivable road geometry and resolves elevated flyover decks.</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="std-btn-sheet-primary" style="width: 100%;" onclick="stdToggleWhyIdr(false)">
+          <span>I Understand — Continue Driving</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Trip Detail Modal (Prompt 31 & 32) -->
+    <div class="std-modal-overlay" id="stdTripDetailModal" onclick="if(event.target===this) stdCloseTripDetail();">
+      <div class="std-modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div>
+            <div style="font-weight: 800; font-size: 1.15rem; color: #111613;" id="stdTripModalTitle">Trip Resilience Audit</div>
+            <div style="font-size: 0.78rem; color: #64746b;" id="stdTripModalSub">Ahmedabad SG Highway → GIFT City Gandhinagar</div>
+          </div>
+          <button class="std-btn-circle" onclick="stdCloseTripDetail()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Resilience Scorecard -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+          <div style="background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 0.72rem; color: #5d6761; font-weight: 600;">GNSS INTERRUPTIONS</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: #111613;">2 Events</div>
+          </div>
+          <div style="background: #dcfce7; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 0.72rem; color: #166534; font-weight: 600;">IDR ASSISTANCE TIME</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: #15803d;">4m 18s</div>
+          </div>
+          <div style="background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 0.72rem; color: #5d6761; font-weight: 600;">PEAK ESTIMATED DRIFT</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: #111613;">1.1 m</div>
+          </div>
+          <div style="background: #f0f4f1; padding: 12px; border-radius: 14px;">
+            <div style="font-size: 0.72rem; color: #5d6761; font-weight: 600;">RECONVERGENCE TIME</div>
+            <div style="font-size: 1.3rem; font-weight: 800; color: #111613;">0.8 sec</div>
+          </div>
+        </div>
+
+        <!-- Event Timeline (Prompt 31) -->
+        <div style="font-size: 0.85rem; font-weight: 800; color: #111613; margin-bottom: 12px;">Trip Timeline:</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.78rem;">
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-weight: 700; color: #166534; font-family: var(--font-mono);">09:42</span>
+            <span style="color: #111613;">GNSS Dual-Band Healthy (18 sats locked, CEP 0.4m)</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-weight: 700; color: #b45309; font-family: var(--font-mono);">09:44</span>
+            <span style="color: #b45309;">GNSS Degraded: Entering Urban Underpass canyon</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-weight: 700; color: #dc2626; font-family: var(--font-mono);">09:45</span>
+            <span style="color: #dc2626;">Dead Reckoning Engaged: Zero GNSS. INS + TCN-GRU active</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-weight: 700; color: #0284c7; font-family: var(--font-mono);">09:49</span>
+            <span style="color: #0284c7;">GNSS Restored: NavIC L5 acquired</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <span style="font-weight: 700; color: #166534; font-family: var(--font-mono);">09:49</span>
+            <span style="color: #166534;">✓ Position Synchronized via Innovation Gate (0.8s)</span>
+          </div>
+        </div>
+
+        <button class="std-btn-hero-primary" style="margin-top: 22px; width: 100%; justify-content: center;" onclick="stdCloseTripDetail()">
+          <span>Close Audit</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <!-- ========================================================================== -->
+  <!-- END IDR STANDARD EXPERIENCE                                                -->
+  <!-- ========================================================================== -->
+
+<div id="idrAdvancedExperience">
+<aside class="app-sidebar" id="appSidebar">
     <div class="sidebar-header">
       <a href="javascript:void(0)" class="sidebar-brand">
         <svg class="drishti-logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -4098,6 +5933,12 @@
       </div>
 
       <div class="top-bar-right">
+
+      <button class="btn btn-sm" id="btnReturnToStandard" onclick="setViewMode('standard')" style="background: #10b981; color: white; border: none; font-weight: 700; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; margin-right: 12px; cursor: pointer; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        <span>Standard Nav Mode</span>
+      </button>
+    
         <button class="btn btn-primary btn-sm" id="btnAppModeToggle" onclick="toggleFullscreenAppMode()" style="border-radius: 20px; gap: 6px; display: flex; align-items: center; font-weight: 700; background: linear-gradient(135deg, #1a73e8, #1557b0);">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
           <span id="appModeBtnLabel">📱 Fullscreen App</span>
@@ -6067,6 +7908,8 @@ P(candidate_j | candidate_i) = RoutePlausibility(i → j)
   </div>
 </main>
   </div>
+</div>
+
 
   <!-- Scripts -->
   <script>
@@ -6638,6 +8481,7 @@ P(candidate_j | candidate_i) = RoutePlausibility(i → j)
     // DYNAMIC GLOBAL TELEMETRY SYNCHRONIZATION ACROSS ALL TABS
     // =========================================================
     function updateAllTabsTelemetry(sim) {
+      if (typeof syncStandardModeWidgets === "function") syncStandardModeWidgets(sim);
       
       const topSpeedVal = document.getElementById('topSpeedVal');
       const topAltVal = document.getElementById('topAltVal');
@@ -8777,6 +10621,274 @@ function toggleStudioShowcase() {
       }
     }
 
-  </script>
+  
+
+    // ==========================================================================
+    // IDR STANDARD EXPERIENCE CONTROLLER
+    // ==========================================================================
+    let currentStdView = 'home';
+    let stdOutageActive = false;
+    let stdOutageTimer = 0;
+    let stdLastOutageState = false;
+
+    function stdSwitchView(viewId) {
+      currentStdView = viewId;
+      document.querySelectorAll('.std-view').forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(`std-view-${viewId}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.std-dock-item').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`stdNavBtn-${viewId}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const container = document.getElementById('stdPageContainer');
+      if (container) {
+        if (viewId === 'livenav') {
+          container.classList.add('wide');
+          // Move #mainMapCard into #stdMapMount
+          stdAttachMap('stdMapMount');
+        } else {
+          container.classList.remove('wide');
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function stdAttachMap(containerId) {
+      const mapCard = document.getElementById('mainMapCard');
+      const mount = document.getElementById(containerId);
+      if (mapCard && mount && mapCard.parentElement !== mount) {
+        mount.appendChild(mapCard);
+        setTimeout(resizeCanvases, 60);
+      }
+    }
+
+    function stdStartNavigation() {
+      stdShowToast("🚀 Engaging Decimeter Navigation: Ahmedabad SG Highway → GIFT City");
+      stdSwitchView('livenav');
+    }
+
+    function stdSelectCorridorPreset(name) {
+      if (typeof switchCorridor === 'function') switchCorridor(name);
+      const title = document.getElementById('stdRouteTitle');
+      const sub = document.getElementById('stdRouteSub');
+      const num = document.getElementById('stdHeroCorridorNum');
+      const orig = document.getElementById('stdHeroOrigin');
+      const dest = document.getElementById('stdHeroDest');
+      
+      if (name === 'pragati') {
+        if (title) title.textContent = "Pragati Maidan Underground Tunnel Run";
+        if (sub) sub.textContent = "6.2 km • 14 min • 1 Complete GNSS blackout zone";
+        if (num) num.textContent = "Corridor #IDR-DEL-01";
+        if (orig) orig.textContent = "India Gate Circle";
+        if (dest) dest.textContent = "Ring Road Sarai Kale Khan";
+      } else if (name === 'barapullah') {
+        if (title) title.textContent = "Barapullah Multi-tier Flyover Expressway";
+        if (sub) sub.textContent = "8.6 km • 18 min • Multi-level elevation split";
+        if (num) num.textContent = "Corridor #IDR-DEL-02";
+        if (orig) orig.textContent = "Sarai Kale Khan";
+        if (dest) dest.textContent = "AIIMS Ring Road Flyover (+12m)";
+      } else {
+        if (title) title.textContent = "Ahmedabad SG Highway → GIFT City Gandhinagar";
+        if (sub) sub.textContent = "32.4 km • 48 min • 2 potential GNSS-risk areas";
+        if (num) num.textContent = "Corridor #IDR-8492";
+        if (orig) orig.textContent = "Ahmedabad SG Highway";
+        if (dest) dest.textContent = "GIFT City Gandhinagar";
+      }
+      stdShowToast("Corridor selected: " + (title ? title.textContent : name));
+    }
+
+    function stdSelectVehicle(type, btn) {
+      if (typeof selectVehicleProfile === 'function') selectVehicleProfile(type);
+      if (btn && btn.parentElement) {
+        btn.parentElement.querySelectorAll('.std-trip-badge').forEach(b => b.classList.remove('success'));
+        btn.classList.add('success');
+      }
+      const desc = document.getElementById('stdSvcVehicle');
+      if (desc) desc.textContent = type.toUpperCase() + " (Non-Holonomic Constraints Active)";
+      stdShowToast(`Vehicle constraints updated: ${type.toUpperCase()}`);
+    }
+
+    function stdTriggerOutage() {
+      if (typeof toggleGnssOutage === 'function') toggleGnssOutage();
+    }
+
+    function stdCalibrateDevice() {
+      stdShowToast("⚡ Calibrating IMU: Computing stationary gravity rotation (R_VP)...");
+      setTimeout(() => {
+        stdShowToast("✓ Device Aligned: Phone frame synchronized to vehicle coordinates (SAE J670)");
+      }, 1500);
+    }
+
+    function stdToggleWhyIdr(show) {
+      const modal = document.getElementById('stdWhyIdrModal');
+      if (modal) {
+        if (show) modal.classList.add('open');
+        else modal.classList.remove('open');
+      }
+    }
+
+    function stdOpenTripDetail(tripId) {
+      const modal = document.getElementById('stdTripDetailModal');
+      const title = document.getElementById('stdTripModalTitle');
+      const sub = document.getElementById('stdTripModalSub');
+      if (title && sub) {
+        if (tripId === 'pragati') {
+          title.textContent = "Pragati Maidan Tunnel Outage Audit";
+          sub.textContent = "6.2 km • 14 min • 100% Dead Reckoning continuity";
+        } else if (tripId === 'barapullah') {
+          title.textContent = "Barapullah Flyover Disambiguation Audit";
+          sub.textContent = "8.6 km • 18 min • Multi-level elevation solved (+12m)";
+        } else {
+          title.textContent = "Ahmedabad → GIFT City Navigation Audit";
+          sub.textContent = "32.4 km • 48 min • 2 GNSS dropouts handled smoothly";
+        }
+      }
+      if (modal) modal.classList.add('open');
+    }
+
+    function stdCloseTripDetail() {
+      const modal = document.getElementById('stdTripDetailModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function stdClearAlerts() {
+      const list = document.getElementById('stdAlertsList');
+      if (list) list.innerHTML = '<div style="text-align: center; color: #8c9790; padding: 40px;">All alerts cleared. No active issues.</div>';
+      const badge = document.getElementById('stdAlertCountBadge');
+      if (badge) badge.style.display = 'none';
+      stdShowToast("All read alerts cleared");
+    }
+
+    let stdToastTimer = null;
+    function stdShowToast(msg, icon = 'ℹ️') {
+      const toast = document.getElementById('stdToastAlert');
+      const text = document.getElementById('stdToastMsg');
+      const iconEl = document.getElementById('stdToastIcon');
+      if (toast && text) {
+        text.textContent = msg;
+        if (iconEl) iconEl.textContent = icon;
+        toast.classList.add('show');
+        if (stdToastTimer) clearTimeout(stdToastTimer);
+        stdToastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3800);
+      }
+    }
+
+    // Hook into setViewMode to manage standard vs diagnostics
+    const origSetViewMode = window.setViewMode;
+    window.setViewMode = function(mode) {
+      if (typeof origSetViewMode === 'function') {
+        origSetViewMode(mode);
+      } else {
+        currentViewMode = mode;
+        localStorage.setItem('drishti-view-mode', mode);
+        document.body.className = mode === 'diagnostics' ? 'view-mode-diagnostics' : 'view-mode-standard';
+      }
+
+      const stdExp = document.getElementById('idrStandardExperience');
+      const advExp = document.getElementById('idrAdvancedExperience');
+      if (mode === 'standard') {
+        if (stdExp) stdExp.style.display = 'block';
+        if (advExp) advExp.style.display = 'none';
+        if (currentStdView === 'livenav') {
+          stdAttachMap('stdMapMount');
+        }
+      } else {
+        if (stdExp) stdExp.style.display = 'none';
+        if (advExp) advExp.style.display = 'flex';
+        stdAttachMap('cockpitMapContainer');
+      }
+      setTimeout(resizeCanvases, 60);
+    };
+
+    // Update Standard Widgets within updateAllTabsTelemetry
+    function syncStandardModeWidgets(sim) {
+      if (!sim) return;
+
+      // 1. Maneuver instruction
+      const mDist = document.getElementById('stdManeuverDist');
+      const mStreet = document.getElementById('stdManeuverStreet');
+      if (mDist) {
+        const remM = Math.max(50, Math.round((1.0 - (sim.progress || 0.45)) * 950));
+        mDist.textContent = `In ${remM} m`;
+      }
+      if (mStreet && sim.roadSegmentName) {
+        mStreet.textContent = sim.roadSegmentName;
+      }
+
+      // 2. Speed Display
+      const spdNum = document.getElementById('stdLiveSpeedNum');
+      if (spdNum) {
+        spdNum.textContent = sim.speedKmh ? sim.speedKmh.toFixed(0) : "48";
+      }
+
+      // 3. IDR Status Chip & State Machine
+      const dot = document.getElementById('stdIdrStatusDot');
+      const title = document.getElementById('stdIdrStatusTitle');
+      const sub = document.getElementById('stdIdrStatusSub');
+      const btnOutage = document.getElementById('stdBtnOutage');
+      const relBadge = document.getElementById('stdReliabilityBadge');
+      const uncert = document.getElementById('stdUncertaintyVal');
+
+      if (sim.isOutage) {
+        if (dot) dot.className = 'std-idr-dot outage';
+        if (title) title.textContent = `● IDR MAINTAINING (${sim.outageSec}s)`;
+        if (sub) sub.textContent = `GNSS Outage: 200Hz INS + Neural Velocity Active`;
+        if (btnOutage) btnOutage.innerHTML = `<span>⚠️ Outage Active (${sim.outageSec}s) — Restore</span>`;
+        if (relBadge) {
+          relBadge.textContent = sim.idrDrift > 3.0 ? "MODERATE CONFIDENCE" : "HIGH CONFIDENCE";
+          relBadge.style.background = sim.idrDrift > 3.0 ? "#fef3c7" : "#dcfce7";
+          relBadge.style.color = sim.idrDrift > 3.0 ? "#b45309" : "#15803d";
+        }
+        if (uncert) uncert.textContent = `±${sim.idrDrift.toFixed(1)} m (DR Drift)`;
+
+        if (!stdLastOutageState) {
+          stdShowToast(`⚠️ GNSS Outage Detected: IDR is maintaining position via 200Hz INS & TCN-GRU model.`, '⚠️');
+          stdLastOutageState = true;
+        }
+      } else {
+        if (dot) dot.className = 'std-idr-dot';
+        if (title) title.textContent = `● IDR ACTIVE`;
+        if (sub) sub.textContent = `GNSS Dual-Band Fixed (18 Sats • CEP 0.4m)`;
+        if (btnOutage) btnOutage.innerHTML = `<span>🚨 Trigger 30s Outage</span>`;
+        if (relBadge) {
+          relBadge.textContent = "HIGH CONFIDENCE";
+          relBadge.style.background = "#dcfce7";
+          relBadge.style.color = "#15803d";
+        }
+        if (uncert) uncert.textContent = `±0.4 m (CEP95 Dual-Band)`;
+
+        if (stdLastOutageState) {
+          stdShowToast(`🟢 GNSS Restored: Dual-Band NavIC L5 acquired. Position synchronized.`, '🟢');
+          stdLastOutageState = false;
+        }
+      }
+
+      // 4. Progress slider in bottom sheet
+      const fill = document.getElementById('stdSheetSliderFill');
+      const thumb = document.getElementById('stdSheetSliderThumb');
+      const remDist = document.getElementById('stdSheetRemDist');
+      const remTime = document.getElementById('stdSheetRemTime');
+      const prog = sim.progress !== undefined ? sim.progress : 0.45;
+      const pct = (prog * 100).toFixed(1);
+
+      if (fill) fill.style.width = `${pct}%`;
+      if (thumb) thumb.style.left = `${pct}%`;
+
+      const fracLeft = 1.0 - prog;
+      const minsLeft = Math.max(1, Math.round(fracLeft * 18));
+      const distLeft = (fracLeft * 7.2).toFixed(1);
+      if (remDist) remDist.textContent = `${distLeft} km remaining`;
+      if (remTime) remTime.textContent = `${minsLeft} min`;
+
+      // 5. Hero Card Progress Fill
+      const heroFill = document.getElementById('stdHeroProgressFill');
+      if (heroFill) heroFill.style.width = `${pct}%`;
+    }
+
+</script>
 </body>
 </html>
